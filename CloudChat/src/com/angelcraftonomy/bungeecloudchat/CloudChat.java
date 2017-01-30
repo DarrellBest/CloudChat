@@ -15,6 +15,8 @@ public class CloudChat extends Plugin implements Listener {
 		self = this;
 		getProxy().getLogger().log(Level.INFO,
 				"BungeeCloudChat may or may not enable!");
+
+		// sets the listener
 		new CloudChatManager(self);
 		getProxy().getLogger().log(Level.INFO, "BungeeCloudChat is enabled!");
 	}
