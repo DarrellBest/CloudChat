@@ -16,10 +16,11 @@ public class SocialSpyCommand extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
-		if (playerLists.isInSocialSpy(sender.getName()))
-			playerLists.removePlayerGlobal(sender.getName());
-		else
-			playerLists.addPlayerGlobal(sender.getName());
+		if (sender.hasPermission(this.getPermission()))
+			if (playerLists.isInSocialSpy(sender.getName()))
+				playerLists.removePlayerGlobal(sender.getName());
+			else
+				playerLists.addPlayerGlobal(sender.getName());
 	}
 
 }
