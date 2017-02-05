@@ -31,6 +31,8 @@ public class SocialSpyCommand extends CommandExtender implements CommandInterfac
 				playerLists.removePlayerGlobal(sender.getName());
 			else
 				playerLists.addPlayerGlobal(sender.getName());
+		else
+			this.sendNoPermMessage();
 	}
 
 	@Override

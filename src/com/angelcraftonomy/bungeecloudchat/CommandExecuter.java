@@ -36,9 +36,7 @@ public class CommandExecuter extends Command {
 				ssCommand.run();
 				ssCommand.cleanup();
 			}
-
 		}
-
 	}
 
 	// Might need to make a new command for this, but this way players can still

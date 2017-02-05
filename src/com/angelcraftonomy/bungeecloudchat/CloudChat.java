@@ -15,7 +15,7 @@ public class CloudChat extends Plugin implements Listener {
 	private Logger logger;
 	private PluginManager pluginManager;
 	private CommandExecuter commands;
-	private ChatListener listeners;
+	private ChatListener listener;
 	public static ServerInfo hub;
 
 	@Override
@@ -24,7 +24,7 @@ public class CloudChat extends Plugin implements Listener {
 		logger = getProxy().getLogger();
 		pluginManager = getProxy().getPluginManager();
 		commands = new CommandExecuter("CloudChat", "CloudChat.use", new String[] { "cc" }, pluginManager, this);
-		listeners = new ChatListener(this);
+		listener = new ChatListener(this);
 
 		logger.log(Level.INFO, "CloudChat is enabling!");
 
@@ -34,12 +34,8 @@ public class CloudChat extends Plugin implements Listener {
 
 		// register listener
 		logger.log(Level.INFO, "CloudChat is registering listeners!");
-		pluginManager.registerListener(this, listeners);
+		pluginManager.registerListener(this, listener);
 
-		// sets the listener and command in one
-		// new CloudChatManager(self);
-		// getProxy().getLogger().log(Level.INFO, "BungeeCloudChat is
-		// enabled!");
 	}
 
 	@Override

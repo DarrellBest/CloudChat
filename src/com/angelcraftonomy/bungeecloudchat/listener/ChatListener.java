@@ -39,7 +39,6 @@ public class ChatListener implements Listener {
 						pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
 								+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.GOLD
 								+ player.getName() + ChatColor.WHITE + ": " + chatEvent.getMessage()));
-				return;
 			}
 
 			// all messages sent to players with socialspy enabled
@@ -50,8 +49,6 @@ public class ChatListener implements Listener {
 							+ ChatColor.WHITE + "] " + ChatColor.GOLD + player.getName() + ChatColor.WHITE + ": "
 							+ chatEvent.getMessage()));
 			}
-
-			return;
 		}
 	}
 
