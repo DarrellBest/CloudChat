@@ -9,7 +9,7 @@ import net.md_5.bungee.api.plugin.PluginManager;
 public class CommandExecuter extends Command {
 
 	private CloudChatSingleton playerLists;
-	private Command socialSpyCommand;
+	private SocialSpyCommand ssCommand;
 
 	public CommandExecuter(String name, String permission, String[] aliases, PluginManager pluginManager,
 			CloudChat cloudChat) {
@@ -17,10 +17,7 @@ public class CommandExecuter extends Command {
 		playerLists = CloudChatSingleton.getInstance();
 
 		// List commands here
-		socialSpyCommand = new SocialSpyCommand("SocialSpy", "CloudChat.SocialSpy", new String[] { "cc" });
-
-		// register commands here
-		pluginManager.registerCommand(cloudChat, socialSpyCommand);
+		ssCommand = new SocialSpyCommand(cloudChat, this, "SocialSpy", "SS", "CloudChat.SocialSpy");
 
 	}
 
@@ -33,9 +30,13 @@ public class CommandExecuter extends Command {
 		if (args.length == 2) {
 			String commandName = args[1];
 
-			if (commandName.equalsIgnoreCase(socialSpyCommand.getName())
-					|| commandName.equalsIgnoreCase(socialSpyCommand.getAliases()[0]))
-				socialSpyCommand.execute(sender, args);
+			if (commandName.equalsIgnoreCase(ssCommand.getName())
+					|| commandName.equalsIgnoreCase(ssCommand.getAlias())) {
+				ssCommand.initialize(sender, args);
+				ssCommand.run();
+				ssCommand.cleanup();
+			}
+
 		}
 
 	}
