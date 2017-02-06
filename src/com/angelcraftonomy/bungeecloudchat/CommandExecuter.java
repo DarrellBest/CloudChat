@@ -38,7 +38,7 @@ public class CommandExecuter extends Command {
 			toggleGlobal(sender);
 
 		if (args.length == 1) {
-			String commandName = args[1];
+			String commandName = args[0];
 
 			if (commandName.equalsIgnoreCase(socialSpyCommand.getName())
 					|| commandName.equalsIgnoreCase(socialSpyCommand.getAlias())) {
