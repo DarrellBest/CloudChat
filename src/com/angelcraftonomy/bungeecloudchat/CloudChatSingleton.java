@@ -4,9 +4,15 @@ import java.util.ArrayList;
 
 public class CloudChatSingleton {
 
+	// chat groups
 	private ArrayList<String> global;
 	private ArrayList<String> socialSpy;
 	private ArrayList<String> staff;
+
+	// permissions
+	public static final String GLOBAL_PERMISSION = "cloudchat.use";
+	public static final String SOCIALSPY_PERMISSION = "cloudchat.socialspy";
+	public static final String STAFF_PERMISSION = "cloudchat.staff";
 
 	// Private constructor prevents instantiation from other classes
 	private CloudChatSingleton() {

@@ -27,15 +27,26 @@ public class ChatListener implements Listener {
 		if ((chatEvent.getSender() instanceof ProxiedPlayer)) {
 			ProxiedPlayer player = (ProxiedPlayer) chatEvent.getSender();
 
-			// If the player has cloud chat toggled on
-			if (playerLists.isInGlobal(player.getName()) && player.hasPermission("CloudChat.use")) {
-
+			// if the player has staff chat on, take priority over global
+			if (playerLists.isInStaff(player.getName()) && player.hasPermission(CloudChatSingleton.STAFF_PERMISSION)) {
 				// cancel the message in the single server chat
 				chatEvent.setCancelled(true);
-
+				for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {
+					if (pp instanceof ProxiedPlayer && pp.hasPermission(CloudChatSingleton.STAFF_PERMISSION)) {
+						pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
+								+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.GOLD
+								+ player.getName() + ChatColor.BLUE + ": " + chatEvent.getMessage()));
+					}
+				}
+			}
+			// If the player has cloud chat toggled on
+			else if (playerLists.isInGlobal(player.getName())
+					&& player.hasPermission(CloudChatSingleton.GLOBAL_PERMISSION)) {
+				// cancel the message in the single server chat
+				chatEvent.setCancelled(true);
 				// send it all players on the proxy instead (all servers)
 				for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers())
-					if (((pp instanceof ProxiedPlayer)) && (pp.hasPermission("CloudChat.use")))
+					if (((pp instanceof ProxiedPlayer)) && (pp.hasPermission("cloudchat.use")))
 						pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
 								+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.GOLD
 								+ player.getName() + ChatColor.WHITE + ": " + chatEvent.getMessage()));
@@ -43,10 +54,12 @@ public class ChatListener implements Listener {
 
 			// all messages sent to players with socialspy enabled
 			for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {
-				// if the player has the permission and has social spy enabled
-				if (pp.hasPermission("CloudChat.SocialSpy") && playerLists.isInSocialSpy(pp.getName()))
+				// if the player has the permission and has social spy
+				// enabled
+				if (pp.hasPermission(CloudChatSingleton.SOCIALSPY_PERMISSION)
+						&& playerLists.isInSocialSpy(pp.getName()))
 					pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW + "SocialSpy"
-							+ ChatColor.WHITE + "] " + ChatColor.GOLD + player.getName() + ChatColor.WHITE + ": "
+							+ ChatColor.WHITE + "] " + ChatColor.GOLD + player.getName() + ChatColor.RED + ": "
 							+ chatEvent.getMessage()));
 			}
 		}

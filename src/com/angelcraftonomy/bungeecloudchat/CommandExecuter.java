@@ -25,8 +25,9 @@ public class CommandExecuter extends Command {
 		playerLists = CloudChatSingleton.getInstance();
 
 		// List commands here
-		socialSpyCommand = new SocialSpyCommand(cloudChat, this, "SocialSpy", "SS", "cloudchat.socialspy");
-		staffCommand = new StaffCommand(cloudChat, this, "Staff", "S", "cloudchat.staff");
+		socialSpyCommand = new SocialSpyCommand(cloudChat, this, "socialspy", "ss",
+				CloudChatSingleton.SOCIALSPY_PERMISSION);
+		staffCommand = new StaffCommand(cloudChat, this, "staff", "s", CloudChatSingleton.STAFF_PERMISSION);
 	}
 
 	@Override

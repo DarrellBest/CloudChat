@@ -23,17 +23,17 @@ public class CloudChat extends Plugin implements Listener {
 		self = this;
 		logger = getProxy().getLogger();
 		pluginManager = getProxy().getPluginManager();
-		commands = new CommandExecuter("CloudChat", "cloudchat.use", new String[] { "cc" }, pluginManager, this);
-		listener = new ChatListener(this);
 
 		logger.log(Level.INFO, "CloudChat is enabling!");
 
-		// register command
+		// register command executer
 		logger.log(Level.INFO, "CloudChat is registering commands!");
+		commands = new CommandExecuter("CloudChat", "cloudchat.use", new String[] { "cc" }, pluginManager, this);
 		pluginManager.registerCommand(this, commands);
 
-		// register listener
+		// register listeners
 		logger.log(Level.INFO, "CloudChat is registering listeners!");
+		listener = new ChatListener(this);
 		pluginManager.registerListener(this, listener);
 
 	}
