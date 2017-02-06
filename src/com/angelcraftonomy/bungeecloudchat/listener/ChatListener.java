@@ -24,13 +24,13 @@ public class ChatListener implements Listener {
 	@EventHandler
 	public void onPlayerChat(ChatEvent chatEvent) {
 		// if the sender is not the console
-		if ((chatEvent.getSender() instanceof ProxiedPlayer)) {
+		if ((chatEvent.getSender() instanceof ProxiedPlayer) && !chatEvent.isCommand()) {
 			ProxiedPlayer player = (ProxiedPlayer) chatEvent.getSender();
 
 			// if the player has staff chat on, take priority over global
 			if (playerLists.isInStaff(player.getName()) && player.hasPermission(CloudChatSingleton.STAFF_PERMISSION)) {
 				// cancel the message in the single server chat
-				// chatEvent.setCancelled(true);
+				chatEvent.setCancelled(true);
 				for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {
 					if (pp instanceof ProxiedPlayer && pp.hasPermission(CloudChatSingleton.STAFF_PERMISSION)) {
 						pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
@@ -43,7 +43,7 @@ public class ChatListener implements Listener {
 			else if (playerLists.isInGlobal(player.getName())
 					&& player.hasPermission(CloudChatSingleton.GLOBAL_PERMISSION)) {
 				// cancel the message in the single server chat
-				// chatEvent.setCancelled(true);
+				chatEvent.setCancelled(true);
 				// send it all players on the proxy instead (all servers)
 				for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers())
 					if (((pp instanceof ProxiedPlayer)) && (pp.hasPermission("cloudchat.use")))

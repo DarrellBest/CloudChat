@@ -33,7 +33,7 @@ public class CommandExecuter extends Command {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		this.sender = sender;
-
+		sendMessage(args.toString() + " " + args.length);
 		if (args.length == 0)
 			toggleGlobal(sender);
 
