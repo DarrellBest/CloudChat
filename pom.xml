@@ -4,9 +4,17 @@
   <artifactId>CloudChat</artifactId>
   <version>1.0.0</version>
   <name>CloudChat</name>
-  <description>Plugin that allows cross server chat utilizing Bungee api</description>
+  <description>Plugin that allows cross server chat utilizing Bungee API</description>
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <resources>
+      <resource>
+      <directory>src/</directory>
+        <includes>
+        <include>plugin.yml</include>
+        </includes>
+     </resource>
+    </resources>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
