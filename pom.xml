@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>CloudChat</groupId>
   <artifactId>CloudChat</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>CloudChat</name>
   <description>Plugin that allows cross server chat utilizing Bungee api</description>
   <build>
