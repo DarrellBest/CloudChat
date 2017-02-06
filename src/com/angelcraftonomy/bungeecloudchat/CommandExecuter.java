@@ -34,10 +34,10 @@ public class CommandExecuter extends Command {
 	public void execute(CommandSender sender, String[] args) {
 		this.sender = sender;
 
-		if (args.length == 1)
+		if (args.length == 0)
 			toggleGlobal(sender);
 
-		if (args.length == 2) {
+		if (args.length == 1) {
 			String commandName = args[1];
 
 			if (commandName.equalsIgnoreCase(socialSpyCommand.getName())
