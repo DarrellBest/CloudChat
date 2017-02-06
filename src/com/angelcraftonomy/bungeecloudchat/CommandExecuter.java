@@ -1,15 +1,23 @@
 package com.angelcraftonomy.bungeecloudchat;
 
 import com.angelcraftonomy.bungeecloudchat.commands.SocialSpyCommand;
+import com.angelcraftonomy.bungeecloudchat.commands.StaffCommand;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.PluginManager;
 
 public class CommandExecuter extends Command {
 
+	private CommandSender sender;
 	private CloudChatSingleton playerLists;
-	private SocialSpyCommand ssCommand;
+	private SocialSpyCommand socialSpyCommand;
+	private StaffCommand staffCommand;
+	private ChatColor colorOne;
+	private ChatColor colorTwo;
 
 	public CommandExecuter(String name, String permission, String[] aliases, PluginManager pluginManager,
 			CloudChat cloudChat) {
@@ -17,12 +25,13 @@ public class CommandExecuter extends Command {
 		playerLists = CloudChatSingleton.getInstance();
 
 		// List commands here
-		ssCommand = new SocialSpyCommand(cloudChat, this, "SocialSpy", "SS", "CloudChat.SocialSpy");
-
+		socialSpyCommand = new SocialSpyCommand(cloudChat, this, "SocialSpy", "SS", "CloudChat.SocialSpy");
+		staffCommand = new StaffCommand(cloudChat, this, "Staff", "S", "CloudChat.Staff");
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
+		this.sender = sender;
 
 		if (args.length == 1)
 			toggleGlobal(sender);
@@ -30,11 +39,18 @@ public class CommandExecuter extends Command {
 		if (args.length == 2) {
 			String commandName = args[1];
 
-			if (commandName.equalsIgnoreCase(ssCommand.getName())
-					|| commandName.equalsIgnoreCase(ssCommand.getAlias())) {
-				ssCommand.initialize(sender, args);
-				ssCommand.run();
-				ssCommand.cleanup();
+			if (commandName.equalsIgnoreCase(socialSpyCommand.getName())
+					|| commandName.equalsIgnoreCase(socialSpyCommand.getAlias())) {
+				socialSpyCommand.initialize(sender, args);
+				socialSpyCommand.run();
+				socialSpyCommand.cleanup();
+			}
+
+			if (commandName.equalsIgnoreCase(staffCommand.getName())
+					|| commandName.equalsIgnoreCase(staffCommand.getAlias())) {
+				staffCommand.initialize(sender, args);
+				staffCommand.run();
+				staffCommand.cleanup();
 			}
 		}
 	}
@@ -43,10 +59,22 @@ public class CommandExecuter extends Command {
 	// do /cloudchat
 	// instead of /cloudchat global or something like that
 	private void toggleGlobal(CommandSender sender) {
-		if (playerLists.isInGlobal(sender.getName()))
+		if (playerLists.isInGlobal(sender.getName())) {
 			playerLists.removePlayerGlobal(sender.getName());
-		else
+			this.sendMessage("You left global chat!");
+		} else {
 			playerLists.addPlayerGlobal(sender.getName());
+			this.sendMessage("You entered global chat!");
+		}
+	}
+
+	// send player a message
+	private void sendMessage(String message) {
+		this.colorOne = ChatColor.GREEN;
+		this.colorTwo = ChatColor.YELLOW;
+		ProxiedPlayer player = (ProxiedPlayer) sender;
+		player.sendMessage(
+				new ComponentBuilder("[CloudChat] ").color(colorOne).append(message).color(colorTwo).create());
 	}
 
 }

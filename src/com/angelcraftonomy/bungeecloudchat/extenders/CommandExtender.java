@@ -58,16 +58,12 @@ public class CommandExtender {
 	// send player a message
 	protected void sendMessage(String message) {
 		ProxiedPlayer player = getPlayer();
-		ChatColor colorOne = ChatColor.GREEN;
-		ChatColor colorTwo = ChatColor.YELLOW;
 		player.sendMessage(
 				new ComponentBuilder("[CloudChat] ").color(colorOne).append(message).color(colorTwo).create());
 	}
 
-	// send player a message
+	// send a specific player a message
 	protected void sendMessage(String message, ProxiedPlayer player) {
-		ChatColor colorOne = ChatColor.GREEN;
-		ChatColor colorTwo = ChatColor.YELLOW;
 		player.sendMessage(
 				new ComponentBuilder("[CloudChat] ").color(colorOne).append(message).color(colorTwo).create());
 	}

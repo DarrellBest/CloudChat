@@ -6,11 +6,13 @@ public class CloudChatSingleton {
 
 	private ArrayList<String> global;
 	private ArrayList<String> socialSpy;
+	private ArrayList<String> staff;
 
 	// Private constructor prevents instantiation from other classes
 	private CloudChatSingleton() {
 		global = new ArrayList<>();
 		socialSpy = new ArrayList<>();
+		staff = new ArrayList<>();
 	}
 
 	/**
@@ -62,6 +64,26 @@ public class CloudChatSingleton {
 			retVal = true;
 
 		return retVal;
+	}
+
+	public void addPlayerStaff(String player) {
+		if (!this.staff.contains(player))
+			this.staff.add(player);
+	}
+
+	public void removePlayerStaff(String player) {
+		if (this.staff.contains(player))
+			this.staff.remove(player);
+	}
+
+	public boolean isInStaff(String player) {
+		boolean retVal = false;
+
+		if (this.staff.contains(player))
+			retVal = true;
+
+		return retVal;
+
 	}
 
 }

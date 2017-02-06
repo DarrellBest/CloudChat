@@ -8,11 +8,11 @@ import com.angelcraftonomy.bungeecloudchat.interfaces.CommandInterface;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
-public class SocialSpyCommand extends CommandExtender implements CommandInterface {
+public class StaffCommand extends CommandExtender implements CommandInterface {
 
 	private CloudChatSingleton playerLists;
 
-	public SocialSpyCommand(CloudChat cloudChat, Command command, String name, String permission, String alias) {
+	public StaffCommand(CloudChat cloudChat, Command command, String name, String alias, String permission) {
 		super(cloudChat, command, name, alias, permission);
 		playerLists = CloudChatSingleton.getInstance();
 	}
@@ -27,15 +27,16 @@ public class SocialSpyCommand extends CommandExtender implements CommandInterfac
 	public void run() {
 		CommandSender sender = this.getSender();
 		if (sender.hasPermission(this.getPermission()))
-			if (playerLists.isInSocialSpy(sender.getName())) {
-				playerLists.removePlayerGlobal(sender.getName());
-				this.sendMessage("You turned Social Spy off!");
+			if (playerLists.isInStaff(sender.getName())) {
+				playerLists.removePlayerStaff(sender.getName());
+				this.sendMessage("You left Staff chat!");
 			} else {
-				playerLists.addPlayerGlobal(sender.getName());
-				this.sendMessage("You turned Social Spy on!");
+				playerLists.addPlayerStaff(sender.getName());
+				this.sendMessage("You entered Staff chat!");
 			}
 		else
 			this.sendNoPermMessage();
+
 	}
 
 	@Override
