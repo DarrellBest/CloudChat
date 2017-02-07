@@ -44,14 +44,14 @@ public class ChatListener implements Listener {
 	}
 
 	private void sendtoGolbalChannel() {
-		// cancel the message in the single server chat
-		chatEvent.setCancelled(true);
 		// send it all players on the proxy instead (all servers)
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers())
 			if (((pp instanceof ProxiedPlayer)) && (pp.hasPermission(CloudChatSingleton.GLOBAL_PERMISSION)))
 				pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
 						+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.GOLD
 						+ player.getName() + ChatColor.WHITE + ": " + chatEvent.getMessage()));
+		// cancel the message in the single server chat
+		chatEvent.setCancelled(true);
 	}
 
 	private void sendToSocailSpyChannel() {
@@ -67,15 +67,14 @@ public class ChatListener implements Listener {
 	}
 
 	private void sendToStaffChannel() {
-		// cancel the message in the single server chat
-		chatEvent.setCancelled(true);
-		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {
+		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers())
 			if (pp instanceof ProxiedPlayer && pp.hasPermission(CloudChatSingleton.STAFF_PERMISSION)) {
 				pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
 						+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.GOLD
 						+ player.getName() + ChatColor.WHITE + ": " + ChatColor.AQUA + chatEvent.getMessage()));
 			}
-		}
+		// cancel the message in the single server chat
+		chatEvent.setCancelled(true);
 	}
 
 }

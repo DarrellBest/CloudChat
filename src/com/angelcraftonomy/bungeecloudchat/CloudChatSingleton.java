@@ -113,20 +113,30 @@ public class CloudChatSingleton {
 	public ArrayList<String> channelsToString() {
 		ArrayList<String> lines = new ArrayList<>();
 		String temp = "";
-		for (ArrayList<String> channel : channels) {
-			lines.add("Channel: " + channel.toString() + " ");
-			for (String player : channel) {
-				temp = temp.concat(player + " ");
-			}
 
-			lines.add(temp + "/n");
+		// Global list
+		lines.add("Channel: Global");
+		for (String player : this.global) {
+			temp = temp.concat(player + " ");
 		}
+		lines.add(temp);
 		temp = "";
+
+		// Staff list
+		lines.add("Channel: Staff");
+		for (String player : this.staff) {
+			temp = temp.concat(player + " ");
+		}
+		lines.add(temp);
+		temp = "";
+
+		// Social Spy list
 		lines.add("Channel: SocialSpy");
 		for (String player : socialSpy) {
 			temp.concat(player + " ");
 		}
 		lines.add(temp);
+
 		return lines;
 	}
 
