@@ -10,11 +10,11 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class StaffCommand extends CommandExtender implements CommandInterface {
 
-	private CloudChatSingleton playerLists;
+	private CloudChatSingleton channels;
 
 	public StaffCommand(CloudChat cloudChat, Command command, String name, String alias, String permission) {
 		super(cloudChat, command, name, alias, permission);
-		playerLists = CloudChatSingleton.getInstance();
+		channels = CloudChatSingleton.getInstance();
 	}
 
 	@Override
@@ -27,11 +27,12 @@ public class StaffCommand extends CommandExtender implements CommandInterface {
 	public void run() {
 		CommandSender sender = this.getSender();
 		if (sender.hasPermission(this.getPermission()))
-			if (playerLists.isInStaff(sender.getName())) {
-				playerLists.removePlayerStaff(sender.getName());
+			if (channels.isInStaff(sender.getName())) {
+				channels.removePlayerStaff(sender.getName());
 				this.sendMessage("You left Staff chat!");
 			} else {
-				playerLists.addPlayerStaff(sender.getName());
+				channels.removeFromAllChannels(sender.getName());
+				channels.addPlayerStaff(sender.getName());
 				this.sendMessage("You entered Staff chat!");
 			}
 		else

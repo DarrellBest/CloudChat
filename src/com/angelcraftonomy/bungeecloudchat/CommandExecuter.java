@@ -1,5 +1,6 @@
 package com.angelcraftonomy.bungeecloudchat;
 
+import com.angelcraftonomy.bungeecloudchat.commands.ListCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.SocialSpyCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.StaffCommand;
 
@@ -16,6 +17,7 @@ public class CommandExecuter extends Command {
 	private CloudChatSingleton playerLists;
 	private SocialSpyCommand socialSpyCommand;
 	private StaffCommand staffCommand;
+	private ListCommand listCommand;
 	private ChatColor colorOne;
 	private ChatColor colorTwo;
 
@@ -28,6 +30,7 @@ public class CommandExecuter extends Command {
 		socialSpyCommand = new SocialSpyCommand(cloudChat, this, "socialspy", "ss",
 				CloudChatSingleton.SOCIALSPY_PERMISSION);
 		staffCommand = new StaffCommand(cloudChat, this, "staff", "s", CloudChatSingleton.STAFF_PERMISSION);
+		listCommand = new ListCommand(cloudChat, this, "list", "l", CloudChatSingleton.LIST_PERMISSION);
 	}
 
 	@Override
@@ -53,6 +56,13 @@ public class CommandExecuter extends Command {
 				staffCommand.run();
 				staffCommand.cleanup();
 			}
+
+			if (commandName.equalsIgnoreCase(listCommand.getName())
+					|| commandName.equalsIgnoreCase(listCommand.getAlias())) {
+				listCommand.initialize(sender, args);
+				listCommand.run();
+				listCommand.cleanup();
+			}
 		}
 	}
 
@@ -64,6 +74,7 @@ public class CommandExecuter extends Command {
 			playerLists.removePlayerGlobal(sender.getName());
 			this.sendMessage("You left global chat!");
 		} else {
+			playerLists.removeFromAllChannels(sender.getName());
 			playerLists.addPlayerGlobal(sender.getName());
 			this.sendMessage("You entered global chat!");
 		}
