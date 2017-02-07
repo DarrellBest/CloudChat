@@ -28,10 +28,10 @@ public class SocialSpyCommand extends CommandExtender implements CommandInterfac
 		CommandSender sender = this.getSender();
 		if (sender.hasPermission(this.getPermission()))
 			if (playerLists.isInSocialSpy(sender.getName())) {
-				playerLists.removePlayerGlobal(sender.getName());
+				playerLists.removePlayerSocialSpy(sender.getName());
 				this.sendMessage("You turned Social Spy off!");
 			} else {
-				playerLists.addPlayerGlobal(sender.getName());
+				playerLists.addPlayerSocialSpy(sender.getName());
 				this.sendMessage("You turned Social Spy on!");
 			}
 		else
@@ -51,3 +51,4 @@ public class SocialSpyCommand extends CommandExtender implements CommandInterfac
 	}
 
 }
+

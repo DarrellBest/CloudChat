@@ -33,17 +33,17 @@ public class ChatListener implements Listener {
 
 			// if the player has staff chat on, take priority over global
 			if (playerLists.isInStaff(player.getName()) && player.hasPermission(CloudChatSingleton.STAFF_PERMISSION)) {
-				this.sendToStaffChat();
+				this.sendToStaffChannel();
 			}
 			// If the player has cloud chat toggled on
 			if (playerLists.isInGlobal(player.getName())
 					&& player.hasPermission(CloudChatSingleton.GLOBAL_PERMISSION)) {
-				this.sendGolbalChatChannel();
+				this.sendtoGolbalChannel();
 			}
 		}
 	}
 
-	private void sendGolbalChatChannel() {
+	private void sendtoGolbalChannel() {
 		// cancel the message in the single server chat
 		chatEvent.setCancelled(true);
 		// send it all players on the proxy instead (all servers)
@@ -66,7 +66,7 @@ public class ChatListener implements Listener {
 		}
 	}
 
-	private void sendToStaffChat() {
+	private void sendToStaffChannel() {
 		// cancel the message in the single server chat
 		chatEvent.setCancelled(true);
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {

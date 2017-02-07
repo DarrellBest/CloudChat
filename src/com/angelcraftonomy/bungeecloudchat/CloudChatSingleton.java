@@ -34,12 +34,12 @@ public class CloudChatSingleton {
 		return SingletonHolder.INSTANCE;
 	}
 
-	public void addPlayerSocialspy(String player) {
+	public void addPlayerSocialSpy(String player) {
 		if (!this.socialSpy.contains(player))
 			this.socialSpy.add(player);
 	}
 
-	public void removePlayerSocialspy(String player) {
+	public void removePlayerSocialSpy(String player) {
 		if (this.socialSpy.contains(player))
 			this.socialSpy.remove(player);
 	}
