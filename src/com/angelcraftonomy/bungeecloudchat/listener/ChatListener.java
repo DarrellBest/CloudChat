@@ -73,8 +73,8 @@ public class ChatListener implements Listener {
 			if (pp.hasPermission(CloudChatSingleton.SOCIALSPY_PERMISSION) && playerLists.isInSocialSpy(pp.getName()))
 				pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
 						+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.WHITE + "["
-						+ ChatColor.RED + "SocialSpy" + ChatColor.WHITE + "] " + ChatColor.GOLD + player.getName()
-						+ ChatColor.WHITE + ": " + ChatColor.RED + message));
+						+ ChatColor.GRAY + "SocialSpy" + ChatColor.WHITE + "] " + ChatColor.GOLD + player.getName()
+						+ ChatColor.WHITE + ": " + ChatColor.GRAY + message));
 		}
 	}
 
