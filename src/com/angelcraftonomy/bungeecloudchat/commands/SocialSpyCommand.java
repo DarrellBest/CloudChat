@@ -12,7 +12,7 @@ public class SocialSpyCommand extends CommandExtender implements CommandInterfac
 
 	private CloudChatSingleton playerLists;
 
-	public SocialSpyCommand(CloudChat cloudChat, Command command, String name, String permission, String alias) {
+	public SocialSpyCommand(CloudChat cloudChat, Command command, String name, String alias, String permission) {
 		super(cloudChat, command, name, alias, permission);
 		playerLists = CloudChatSingleton.getInstance();
 	}

@@ -4,6 +4,7 @@ import com.angelcraftonomy.bungeecloudchat.CloudChat;
 import com.angelcraftonomy.bungeecloudchat.CloudChatSingleton;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
@@ -26,55 +27,62 @@ public class ChatListener implements Listener {
 	@EventHandler
 	public void onPlayerChat(ChatEvent chatEvent) {
 		// if the sender is not the console and the chat event is not a command!
-		if ((chatEvent.getSender() instanceof ProxiedPlayer) && !chatEvent.isCommand()) {
-			ProxiedPlayer player = (ProxiedPlayer) chatEvent.getSender();
+		if ((chatEvent.getSender() instanceof CommandSender) && !chatEvent.isCommand()) {
+			player = (ProxiedPlayer) chatEvent.getSender();
+			this.chatEvent = chatEvent;
 
-			this.sendToSocailSpyChannel();
+			// send all chats to socialspy
+			this.sendToSocailSpyChannel(chatEvent.getMessage());
 
 			// if the player has staff chat on, take priority over global
 			if (playerLists.isInStaff(player.getName()) && player.hasPermission(CloudChatSingleton.STAFF_PERMISSION)) {
-				this.sendToStaffChannel();
+				chatEvent.setCancelled(true);
+				this.sendToStaffChannel(chatEvent.getMessage());
 			}
+
 			// If the player has cloud chat toggled on
 			if (playerLists.isInGlobal(player.getName())
 					&& player.hasPermission(CloudChatSingleton.GLOBAL_PERMISSION)) {
-				this.sendtoGolbalChannel();
+				chatEvent.setCancelled(true);
+				this.sendtoGolbalChannel(chatEvent.getMessage());
 			}
+		}
+		// if it is a player and it is a command
+		if ((chatEvent.getSender() instanceof CommandSender) && chatEvent.isCommand()) {
+			// TODO
 		}
 	}
 
-	private void sendtoGolbalChannel() {
+	private void sendtoGolbalChannel(String message) {
 		// send it all players on the proxy instead (all servers)
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers())
 			if (((pp instanceof ProxiedPlayer)) && (pp.hasPermission(CloudChatSingleton.GLOBAL_PERMISSION)))
 				pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
-						+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.GOLD
-						+ player.getName() + ChatColor.WHITE + ": " + chatEvent.getMessage()));
-		// cancel the message in the single server chat
-		chatEvent.setCancelled(true);
+						+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.WHITE + "["
+						+ ChatColor.YELLOW + "Global" + ChatColor.WHITE + "] " + ChatColor.GOLD + player.getName()
+						+ ChatColor.WHITE + ": " + message));
 	}
 
-	private void sendToSocailSpyChannel() {
+	private void sendToSocailSpyChannel(String message) {
 		// all messages sent to players with social spy enabled
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {
-			// if the player has the permission and has social spy
-			// enabled
+			// if the player has the permission and has social spy enabled
 			if (pp.hasPermission(CloudChatSingleton.SOCIALSPY_PERMISSION) && playerLists.isInSocialSpy(pp.getName()))
-				pp.sendMessage(new TextComponent(
-						ChatColor.WHITE + "[" + ChatColor.YELLOW + "SocialSpy" + ChatColor.WHITE + "] " + ChatColor.GOLD
-								+ player.getName() + ChatColor.RED + ": " + chatEvent.getMessage()));
+				pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
+						+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.WHITE + "["
+						+ ChatColor.RED + "SocialSpy" + ChatColor.WHITE + "] " + ChatColor.GOLD + player.getName()
+						+ ChatColor.WHITE + ": " + ChatColor.RED + message));
 		}
 	}
 
-	private void sendToStaffChannel() {
+	private void sendToStaffChannel(String message) {
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers())
 			if (pp instanceof ProxiedPlayer && pp.hasPermission(CloudChatSingleton.STAFF_PERMISSION)) {
 				pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
-						+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.GOLD
-						+ player.getName() + ChatColor.WHITE + ": " + ChatColor.AQUA + chatEvent.getMessage()));
+						+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.WHITE + "["
+						+ ChatColor.AQUA + "Staff" + ChatColor.WHITE + "] " + ChatColor.GOLD + player.getName()
+						+ ChatColor.WHITE + ": " + ChatColor.AQUA + message));
 			}
-		// cancel the message in the single server chat
-		chatEvent.setCancelled(true);
 	}
 
 }
