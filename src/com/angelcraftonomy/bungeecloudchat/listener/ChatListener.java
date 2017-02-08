@@ -26,9 +26,11 @@ public class ChatListener implements Listener {
 	// on-chat listener
 	@EventHandler
 	public void onPlayerChat(ChatEvent chatEvent) {
+		player = (ProxiedPlayer) chatEvent.getSender();
+
 		// if the sender is not the console and the chat event is not a command!
 		if ((chatEvent.getSender() instanceof CommandSender) && !chatEvent.isCommand()) {
-			player = (ProxiedPlayer) chatEvent.getSender();
+
 			this.chatEvent = chatEvent;
 
 			// send all chats to socialspy
@@ -49,6 +51,7 @@ public class ChatListener implements Listener {
 		}
 		// if it is a player and it is a command
 		if ((chatEvent.getSender() instanceof CommandSender) && chatEvent.isCommand()) {
+			// spies on commands
 			this.sendToSocialSpyChannel(chatEvent.getMessage());
 		}
 	}
