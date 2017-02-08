@@ -32,7 +32,7 @@ public class ChatListener implements Listener {
 			this.chatEvent = chatEvent;
 
 			// send all chats to socialspy
-			this.sendToSocailSpyChannel(chatEvent.getMessage());
+			this.sendToSocialSpyChannel(chatEvent.getMessage());
 
 			// if the player has staff chat on, take priority over global
 			if (playerLists.isInStaff(player.getName()) && player.hasPermission(CloudChatSingleton.STAFF_PERMISSION)) {
@@ -49,7 +49,7 @@ public class ChatListener implements Listener {
 		}
 		// if it is a player and it is a command
 		if ((chatEvent.getSender() instanceof CommandSender) && chatEvent.isCommand()) {
-			// TODO
+			this.sendToSocialSpyChannel(chatEvent.getMessage());
 		}
 	}
 
@@ -63,7 +63,7 @@ public class ChatListener implements Listener {
 						+ ChatColor.WHITE + ": " + message));
 	}
 
-	private void sendToSocailSpyChannel(String message) {
+	private void sendToSocialSpyChannel(String message) {
 		// all messages sent to players with social spy enabled
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {
 			// if the player has the permission and has social spy enabled

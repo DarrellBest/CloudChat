@@ -43,6 +43,7 @@ public class CloudChatSingleton {
 
 	public boolean removeFromAllChannels(String player) {
 		boolean retVal = false;
+
 		for (ArrayList<String> channel : channels) {
 			if (channel.contains(player)) {
 				channel.remove(player);
@@ -107,7 +108,6 @@ public class CloudChatSingleton {
 			retVal = true;
 
 		return retVal;
-
 	}
 
 	public ArrayList<String> channelsToString() {
@@ -117,7 +117,7 @@ public class CloudChatSingleton {
 		// Global list
 		lines.add("Channel: Global");
 		for (String player : this.global) {
-			temp = temp.concat(player + " ");
+			temp = temp.concat(" " + player);
 		}
 		lines.add(temp);
 		temp = "";
@@ -125,7 +125,7 @@ public class CloudChatSingleton {
 		// Staff list
 		lines.add("Channel: Staff");
 		for (String player : this.staff) {
-			temp = temp.concat(player + " ");
+			temp = temp.concat(" " + player);
 		}
 		lines.add(temp);
 		temp = "";
@@ -133,7 +133,7 @@ public class CloudChatSingleton {
 		// Social Spy list
 		lines.add("Channel: SocialSpy");
 		for (String player : socialSpy) {
-			temp.concat(player + " ");
+			temp = temp.concat(" " + player);
 		}
 		lines.add(temp);
 

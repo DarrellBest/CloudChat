@@ -72,11 +72,11 @@ public class CommandExecuter extends Command {
 	private void toggleGlobal(CommandSender sender) {
 		if (playerLists.isInGlobal(sender.getName())) {
 			playerLists.removePlayerGlobal(sender.getName());
-			this.sendMessage("You left global chat!");
+			this.sendMessage("You left Global chat!");
 		} else {
 			playerLists.removeFromAllChannels(sender.getName());
 			playerLists.addPlayerGlobal(sender.getName());
-			this.sendMessage("You entered global chat!");
+			this.sendMessage("You entered Global chat!");
 		}
 	}
 
