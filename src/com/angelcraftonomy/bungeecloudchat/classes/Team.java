@@ -17,7 +17,7 @@ public class Team {
 	//Team settings
 	private String teamName;
 	private String password;
-	private String creator;
+	private String owner;
 	
 	
 	public Team(String teamName, String password, String creator) {
@@ -27,14 +27,28 @@ public class Team {
 		} else {
 			password = null;
 		}
-		creator = this.creator;
+		creator = this.owner;
 	}
 	
-	public boolean addPlayer(String name){
-		return true;
+	public void addPlayer(String name){
 	}
 	
-	public boolean removePlayer(String name){
-		return true;
+	public void removePlayer(String name){
 	}
+	
+	public void removeAllPlayers(){
+	}
+	
+	public void changePassword(String password){
+		if(this.password != null){
+			password = this.password;
+		} else {
+			password = null;
+		}
+	}
+	
+	public void changeOwner(String name){
+		owner = name;
+	}
+	
 }
