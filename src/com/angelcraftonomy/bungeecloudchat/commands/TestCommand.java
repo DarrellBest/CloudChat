@@ -8,15 +8,15 @@ import com.angelcraftonomy.bungeecloudchat.interfaces.CommandInterface;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
-public class TestCommand extends CommandExtender implements CommandInterface  {
-	
+public class TestCommand extends CommandExtender implements CommandInterface {
+
 	private CloudChatSingleton dataStore;
-	
+
 	public TestCommand(CloudChat cloudChat, Command command, String name, String alias, String permission) {
 		super(cloudChat, command, name, alias, permission);
 		dataStore = CloudChatSingleton.getInstance();
 	}
-	
+
 	@Override
 	public void initialize(CommandSender sender, String[] args) {
 		this.setSender(sender);
@@ -26,11 +26,14 @@ public class TestCommand extends CommandExtender implements CommandInterface  {
 	@Override
 	public void run() {
 		CommandSender sender = this.getSender();
-		if (sender.hasPermission(this.getPermission())){
+		if (sender.hasPermission(this.getPermission())) {
+			if (this.getArgs()[1].equals("print")) {
+				this.sendMessage("The test number is: " + dataStore.getTest());
+			} else {
 				dataStore.changeTest(Integer.parseInt(this.getArgs()[1]));
 				this.sendMessage("You changed the test number!");
-		}
-		else
+			}
+		} else
 			this.sendNoPermMessage();
 	}
 
