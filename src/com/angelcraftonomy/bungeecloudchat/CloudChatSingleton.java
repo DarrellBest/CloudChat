@@ -1,8 +1,26 @@
 package com.angelcraftonomy.bungeecloudchat;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CloudChatSingleton {
+public class CloudChatSingleton implements Serializable {
+
+	private static final long serialVersionUID = -4606175994628692132L;
+
+	private static CloudChatSingleton INSTANCE = null;
+
+	public static synchronized CloudChatSingleton getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new CloudChatSingleton();
+		}
+		return INSTANCE;
+	}
 
 	// chat groups
 	private ArrayList<ArrayList<String>> channels;
@@ -33,13 +51,14 @@ public class CloudChatSingleton {
 	 * Singleton.getInstance() or the first access to SingletonHolder.INSTANCE,
 	 * not before.
 	 */
-	private static class SingletonHolder {
-		private static final CloudChatSingleton INSTANCE = new CloudChatSingleton();
-	}
+	// private static class SingletonHolder {
+	// private static final CloudChatSingleton INSTANCE = new
+	// CloudChatSingleton();
+	// }
 
-	public static CloudChatSingleton getInstance() {
-		return SingletonHolder.INSTANCE;
-	}
+	// public static CloudChatSingleton getInstance() {
+	// return SingletonHolder.INSTANCE;
+	// }
 
 	public boolean removeFromAllChannels(String player) {
 		boolean retVal = false;
@@ -108,6 +127,38 @@ public class CloudChatSingleton {
 			retVal = true;
 
 		return retVal;
+	}
+
+	public void save(File file) {
+		try {
+			// FileWriter fw = new FileWriter()
+
+			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(this);
+			out.close();
+			fileOut.close();
+			System.out.printf("CloudChat data is saved in ccstate.ser");
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+	}
+
+	public void load(File file) {
+		try {
+			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			INSTANCE = (CloudChatSingleton) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class not found");
+			c.printStackTrace();
+			return;
+		}
 	}
 
 	public ArrayList<String> channelsToString() {
