@@ -36,6 +36,7 @@ public class CloudChat extends Plugin implements Listener {
 	private File channelsFile;
 	private File staffFile;
 	private File socialSpyFile;
+	private File nicknamesFile;
 	private static CloudChat self;
 	private Logger logger;
 	private PluginManager pluginManager;
@@ -71,7 +72,7 @@ public class CloudChat extends Plugin implements Listener {
 		}
 
 		// Check Global file
-		this.globalFile = new File(getDataFolder() + "/globalstate.ser");
+		this.globalFile = new File(getDataFolder() + "/globalchannel.ser");
 		if (!globalFile.exists()) {
 			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating global channel state.");
 			state.saveGlobal(globalFile);
@@ -81,7 +82,7 @@ public class CloudChat extends Plugin implements Listener {
 		}
 
 		// Check Social Spy file
-		this.socialSpyFile = new File(getDataFolder() + "/socialspystate.ser");
+		this.socialSpyFile = new File(getDataFolder() + "/socialspychannel.ser");
 		if (!socialSpyFile.exists()) {
 			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating social spy channel state.");
 			state.saveSocialSpy(socialSpyFile);
@@ -91,7 +92,7 @@ public class CloudChat extends Plugin implements Listener {
 		}
 
 		// Check staff file
-		this.staffFile = new File(getDataFolder() + "/staffstate.ser");
+		this.staffFile = new File(getDataFolder() + "/staffchannel.ser");
 		if (!staffFile.exists()) {
 			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating staff channel state.");
 			state.saveStaff(staffFile);
@@ -99,6 +100,17 @@ public class CloudChat extends Plugin implements Listener {
 			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is loading staff channel state.");
 			state.loadStaff(staffFile);
 		}
+
+		// TODO Fix broken load and save
+		// Check nicknames file
+		/*
+		 * this.nicknamesFile = new File(getDataFolder() + "/nicknames.ser"); if
+		 * (!nicknamesFile.exists()) { logger.log(Level.INFO, ANSI_GREEN +
+		 * "CloudChat is creating a nicknames state.");
+		 * state.saveNicknames(nicknamesFile); } else { logger.log(Level.INFO,
+		 * ANSI_GREEN + "CloudChat is loading nicknames.");
+		 * state.loadNicknames(nicknamesFile); }
+		 */
 
 		// register command executer
 		logger.log(Level.INFO, "CloudChat is registering commands!");
@@ -119,6 +131,7 @@ public class CloudChat extends Plugin implements Listener {
 		state.saveChannels(channelsFile);
 		state.saveSocialSpy(socialSpyFile);
 		state.saveStaff(staffFile);
+		// state.saveNicknames(nicknamesFile);
 		logger.log(Level.INFO, ANSI_GREEN + "CloudChat is disabling!");
 	}
 

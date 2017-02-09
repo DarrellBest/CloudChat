@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @SuppressWarnings("unchecked")
 public class CloudChatSingleton implements Serializable {
@@ -16,7 +17,7 @@ public class CloudChatSingleton implements Serializable {
 
 	private static CloudChatSingleton INSTANCE = null;
 
-	public static synchronized CloudChatSingleton getInstance() {
+	public static CloudChatSingleton getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new CloudChatSingleton();
 		}
@@ -28,6 +29,11 @@ public class CloudChatSingleton implements Serializable {
 	private ArrayList<String> global;
 	private ArrayList<String> socialSpy;
 	private ArrayList<String> staff;
+
+	// nicknames
+	private HashMap<String, String> nicknames = new HashMap<>();
+
+	// test
 	private Integer test;
 
 	// permissions
@@ -36,6 +42,7 @@ public class CloudChatSingleton implements Serializable {
 	public static final String STAFF_PERMISSION = "cloudchat.staff";
 	public static final String LIST_PERMISSION = "cloudchat.list";
 	public static final String TEST_PERMISSION = "cloudchat.test";
+	public static final String NICK_PERMISSION = "cloudchat.nick";
 
 	// Private constructor prevents instantiation from other classes
 	private CloudChatSingleton() {
@@ -48,6 +55,23 @@ public class CloudChatSingleton implements Serializable {
 		channels = new ArrayList<>();
 		channels.add(global);
 		channels.add(staff);
+	}
+
+	public void addNickname(String player, String nick) {
+		nicknames.put(player, nick);
+	}
+
+	public String getNickname(String player) {
+		String retVal = null;
+		Boolean contains = null;
+		// Will not return false, so it must be done this way
+		if (nicknames != null)
+			contains = nicknames.containsKey(player);
+		if (contains != null)
+			retVal = nicknames.get(player);
+		if (retVal == null)
+			retVal = player;
+		return retVal;
 	}
 
 	public void removeFromAllChannels(String player) {
@@ -120,6 +144,7 @@ public class CloudChatSingleton implements Serializable {
 		this.test = test;
 	}
 
+	// Save methods
 	public void saveChannels(File file) {
 		try {
 			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
@@ -172,6 +197,20 @@ public class CloudChatSingleton implements Serializable {
 		}
 	}
 
+	public void saveNicknames(File file) {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(this.nicknames);
+			out.close();
+			fileOut.close();
+			System.out.printf("CloudChat nicknames saved");
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+	}
+
+	// Load methods
 	public void loadChannels(File file) {
 		try {
 			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
@@ -228,6 +267,23 @@ public class CloudChatSingleton implements Serializable {
 			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			this.socialSpy = (ArrayList<String>) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class not found");
+			c.printStackTrace();
+			return;
+		}
+	}
+
+	public void loadNicknames(File file) {
+		try {
+			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			this.nicknames = (HashMap<String, String>) in.readObject();
 			in.close();
 			fileIn.close();
 		} catch (IOException i) {

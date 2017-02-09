@@ -1,6 +1,7 @@
 package com.angelcraftonomy.bungeecloudchat;
 
 import com.angelcraftonomy.bungeecloudchat.commands.ListCommand;
+import com.angelcraftonomy.bungeecloudchat.commands.NicknameCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.SocialSpyCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.StaffCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.TestCommand;
@@ -20,6 +21,7 @@ public class CommandExecuter extends Command {
 	private StaffCommand staffCommand;
 	private ListCommand listCommand;
 	private TestCommand testCommand;
+	private NicknameCommand nickCommand;
 	private ChatColor colorOne;
 	private ChatColor colorTwo;
 
@@ -34,18 +36,17 @@ public class CommandExecuter extends Command {
 		staffCommand = new StaffCommand(cloudChat, this, "staff", "s", CloudChatSingleton.STAFF_PERMISSION);
 		listCommand = new ListCommand(cloudChat, this, "list", "l", CloudChatSingleton.LIST_PERMISSION);
 		testCommand = new TestCommand(cloudChat, this, "test", "t", CloudChatSingleton.TEST_PERMISSION);
+		nickCommand = new NicknameCommand(cloudChat, this, "nick", "n", CloudChatSingleton.NICK_PERMISSION);
 	}
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		this.sender = sender;
 		String commandName;
-		
+
 		if (args.length == 0)
 			toggleGlobal(sender);
 
-
-		
 		if (args.length == 1) {
 			commandName = args[0];
 			if (commandName.equalsIgnoreCase(socialSpyCommand.getName())
@@ -68,19 +69,27 @@ public class CommandExecuter extends Command {
 				listCommand.run();
 				listCommand.cleanup();
 			}
-			
+
 		}
-		
+
 		if (args.length == 2) {
 			commandName = args[0];
+
 			if (commandName.equalsIgnoreCase(testCommand.getName())
 					|| commandName.equalsIgnoreCase(testCommand.getAlias())) {
 				testCommand.initialize(sender, args);
 				testCommand.run();
 				testCommand.cleanup();
 			}
+
+			if (commandName.equalsIgnoreCase(nickCommand.getName())
+					|| commandName.equalsIgnoreCase(nickCommand.getAlias())) {
+				nickCommand.initialize(sender, args);
+				nickCommand.run();
+				nickCommand.cleanup();
+			}
 		}
-		
+
 	}
 
 	// Might need to make a new command for this, but this way players can still

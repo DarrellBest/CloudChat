@@ -8,13 +8,13 @@ import com.angelcraftonomy.bungeecloudchat.interfaces.CommandInterface;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.plugin.Command;
 
-public class ListCommand extends CommandExtender implements CommandInterface {
+public class NicknameCommand extends CommandExtender implements CommandInterface {
 
-	private CloudChatSingleton channels;
+	private CloudChatSingleton nickNames;
 
-	public ListCommand(CloudChat cloudChat, Command command, String name, String alias, String permission) {
+	public NicknameCommand(CloudChat cloudChat, Command command, String name, String alias, String permission) {
 		super(cloudChat, command, name, alias, permission);
-		channels = CloudChatSingleton.getInstance();
+		nickNames = CloudChatSingleton.getInstance();
 	}
 
 	@Override
@@ -25,7 +25,14 @@ public class ListCommand extends CommandExtender implements CommandInterface {
 
 	@Override
 	public void run() {
-		sendMessage(channels.channelsToString());
+		CommandSender sender = this.getSender();
+		String nick = getArgs()[1];
+		String player = getPlayer().getName();
+		if (sender.hasPermission(this.getPermission()))
+			nickNames.addNickname(player, nick);
+		else
+			this.sendNoPermMessage();
+
 	}
 
 	@Override
@@ -38,5 +45,4 @@ public class ListCommand extends CommandExtender implements CommandInterface {
 	public void sendNoPermMessage() {
 		sendMessage("You do not have the permission: " + this.getPermission());
 	}
-
 }
