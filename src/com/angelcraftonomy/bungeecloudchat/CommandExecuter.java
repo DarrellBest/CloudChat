@@ -38,13 +38,12 @@ public class CommandExecuter extends Command {
 
 	@Override
 	public void execute(CommandSender sender, String[] args) {
+		String commandName = args[0];
 		this.sender = sender;
 
 		if (args.length == 0)
 			toggleGlobal(sender);
 
-		String commandName = args[0];
-		
 		if (args.length == 1) {
 
 			if (commandName.equalsIgnoreCase(socialSpyCommand.getName())
@@ -67,18 +66,11 @@ public class CommandExecuter extends Command {
 				listCommand.run();
 				listCommand.cleanup();
 			}
-			
-			if (commandName.equalsIgnoreCase(testCommand.getName())
-					|| commandName.equalsIgnoreCase(testCommand.getAlias())) {
-				testCommand.initialize(sender, args);
-				testCommand.run();
-				testCommand.cleanup();
-			}
-			
+
 		}
-		
+
 		if (args.length == 2) {
-			
+
 			if (commandName.equalsIgnoreCase(testCommand.getName())
 					|| commandName.equalsIgnoreCase(testCommand.getAlias())) {
 				testCommand.initialize(sender, args);
@@ -86,7 +78,7 @@ public class CommandExecuter extends Command {
 				testCommand.cleanup();
 			}
 		}
-		
+
 	}
 
 	// Might need to make a new command for this, but this way players can still
