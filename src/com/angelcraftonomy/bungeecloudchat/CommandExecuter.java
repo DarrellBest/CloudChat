@@ -33,6 +33,7 @@ public class CommandExecuter extends Command {
 				CloudChatSingleton.SOCIALSPY_PERMISSION);
 		staffCommand = new StaffCommand(cloudChat, this, "staff", "s", CloudChatSingleton.STAFF_PERMISSION);
 		listCommand = new ListCommand(cloudChat, this, "list", "l", CloudChatSingleton.LIST_PERMISSION);
+		testCommand = new TestCommand(cloudChat, this, "test", "t", CloudChatSingleton.TEST_PERMISSION);
 	}
 
 	@Override
@@ -42,8 +43,9 @@ public class CommandExecuter extends Command {
 		if (args.length == 0)
 			toggleGlobal(sender);
 
+		String commandName = args[0];
+		
 		if (args.length == 1) {
-			String commandName = args[0];
 
 			if (commandName.equalsIgnoreCase(socialSpyCommand.getName())
 					|| commandName.equalsIgnoreCase(socialSpyCommand.getAlias())) {
@@ -76,7 +78,6 @@ public class CommandExecuter extends Command {
 		}
 		
 		if (args.length == 2) {
-			String commandName = args[0];	
 			
 			if (commandName.equalsIgnoreCase(testCommand.getName())
 					|| commandName.equalsIgnoreCase(testCommand.getAlias())) {
