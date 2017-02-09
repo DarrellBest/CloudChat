@@ -27,7 +27,7 @@ public class CloudChatSingleton implements Serializable {
 	private ArrayList<String> global;
 	private ArrayList<String> socialSpy;
 	private ArrayList<String> staff;
-	private int test;
+	private Integer test;
 
 	// permissions
 	public static final String GLOBAL_PERMISSION = "cloudchat.use";
@@ -41,7 +41,7 @@ public class CloudChatSingleton implements Serializable {
 		global = new ArrayList<>();
 		socialSpy = new ArrayList<>();
 		staff = new ArrayList<>();
-		test = 0;
+		test = new Integer(0);
 
 		// add all channels to the list of channels
 		channels = new ArrayList<>();
@@ -138,7 +138,7 @@ public class CloudChatSingleton implements Serializable {
 
 			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(this);
+			out.writeObject(test);
 			out.close();
 			fileOut.close();
 			System.out.printf("CloudChat data is saved in ccstate.ser");
@@ -151,7 +151,7 @@ public class CloudChatSingleton implements Serializable {
 		try {
 			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
 			ObjectInputStream in = new ObjectInputStream(fileIn);
-			INSTANCE = (CloudChatSingleton) in.readObject();
+			test = (Integer) in.readObject();
 			in.close();
 			fileIn.close();
 		} catch (IOException i) {
