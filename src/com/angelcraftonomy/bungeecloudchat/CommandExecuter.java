@@ -68,13 +68,6 @@ public class CommandExecuter extends Command {
 				listCommand.cleanup();
 			}
 			
-			if (commandName.equalsIgnoreCase(testCommand.getName())
-					|| commandName.equalsIgnoreCase(testCommand.getAlias())) {
-				testCommand.initialize(sender, args);
-				testCommand.run();
-				testCommand.cleanup();
-			}
-			
 		}
 		
 		if (args.length == 2) {
