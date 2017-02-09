@@ -11,10 +11,31 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
 
+@SuppressWarnings("unused")
 public class CloudChat extends Plugin implements Listener {
-	// Check if first load
-	private File varTmpFile;
-	private File varTmpDir;
+
+	private static final String ANSI_RESET = "\u001B[0m";
+	private static final String ANSI_BLACK = "\u001B[30m";
+	private static final String ANSI_RED = "\u001B[31m";
+	private static final String ANSI_GREEN = "\u001B[32m";
+	private static final String ANSI_YELLOW = "\u001B[33m";
+	private static final String ANSI_BLUE = "\u001B[34m";
+	private static final String ANSI_PURPLE = "\u001B[35m";
+	private static final String ANSI_CYAN = "\u001B[36m";
+	private static final String ANSI_WHITE = "\u001B[37m";
+	private static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+	private static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+	private static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+	private static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+	private static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+	private static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+	private static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+	private static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+	private File mainDirectory;
+	private File globalFile;
+	private File channelsFile;
+	private File staffFile;
+	private File socialSpyFile;
 	private static CloudChat self;
 	private Logger logger;
 	private PluginManager pluginManager;
@@ -30,21 +51,53 @@ public class CloudChat extends Plugin implements Listener {
 		pluginManager = getProxy().getPluginManager();
 		state = CloudChatSingleton.getInstance();
 
-		logger.log(Level.INFO, "CloudChat is enabling!");
+		logger.log(Level.INFO, ANSI_GREEN + "CloudChat is enabling!");
 
 		// Check if first load
-		varTmpDir = new File(getDataFolder(), "");
-		if (!varTmpDir.exists())
-			varTmpDir.mkdir();
-		varTmpFile = new File(getDataFolder() + "/ccstate.ser");
+		mainDirectory = new File(getDataFolder(), "");
+		if (!mainDirectory.exists()) {
+			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is loading for the first time!");
+			mainDirectory.mkdir();
+		}
 
-		// Save fresh if first startup. Load if one exists already
-		if (!varTmpFile.exists()) {
-			logger.log(Level.INFO, "CloudChat is loading for the first time!");
-			state.save(varTmpFile);
+		// Check Channels file
+		this.channelsFile = new File(getDataFolder() + "/channelstate.ser");
+		if (!channelsFile.exists()) {
+			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating channels state.");
+			state.saveChannels(channelsFile);
 		} else {
-			state.load(varTmpFile);
-			logger.log(Level.INFO, "CloudChat loading state.");
+			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is loading channels state.");
+			state.loadChannels(channelsFile);
+		}
+
+		// Check Global file
+		this.globalFile = new File(getDataFolder() + "/globalstate.ser");
+		if (!globalFile.exists()) {
+			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating global channel state.");
+			state.saveGlobal(globalFile);
+		} else {
+			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is loading global channel state.");
+			state.loadGlobal(globalFile);
+		}
+
+		// Check Social Spy file
+		this.socialSpyFile = new File(getDataFolder() + "/socialspystate.ser");
+		if (!socialSpyFile.exists()) {
+			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating social spy channel state.");
+			state.saveSocialSpy(socialSpyFile);
+		} else {
+			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is loading social spy channel state.");
+			state.loadSocialSpy(socialSpyFile);
+		}
+
+		// Check staff file
+		this.staffFile = new File(getDataFolder() + "/staffstate.ser");
+		if (!staffFile.exists()) {
+			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating staff channel state.");
+			state.saveStaff(staffFile);
+		} else {
+			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is loading staff channel state.");
+			state.loadStaff(staffFile);
 		}
 
 		// register command executer
@@ -61,9 +114,12 @@ public class CloudChat extends Plugin implements Listener {
 
 	@Override
 	public void onDisable() {
-		logger.log(Level.INFO, "CloudChat is saving!");
-		state.save(varTmpFile);
-		logger.log(Level.INFO, "CloudChat is disabling!");
+		logger.log(Level.INFO, ANSI_GREEN + "CloudChat is saving all data!");
+		state.saveGlobal(globalFile);
+		state.saveChannels(channelsFile);
+		state.saveSocialSpy(socialSpyFile);
+		state.saveStaff(staffFile);
+		logger.log(Level.INFO, ANSI_GREEN + "CloudChat is disabling!");
 	}
 
 	public static CloudChat getPlugin() {

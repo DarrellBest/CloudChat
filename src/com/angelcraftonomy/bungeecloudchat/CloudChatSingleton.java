@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+@SuppressWarnings("unchecked")
 public class CloudChatSingleton implements Serializable {
 
 	private static final long serialVersionUID = -4606175994628692132L;
@@ -49,30 +50,9 @@ public class CloudChatSingleton implements Serializable {
 		channels.add(staff);
 	}
 
-	/**
-	 * SingletonHolder is loaded on the first execution of
-	 * Singleton.getInstance() or the first access to SingletonHolder.INSTANCE,
-	 * not before.
-	 */
-	// private static class SingletonHolder {
-	// private static final CloudChatSingleton INSTANCE = new
-	// CloudChatSingleton();
-	// }
-
-	// public static CloudChatSingleton getInstance() {
-	// return SingletonHolder.INSTANCE;
-	// }
-
-	public boolean removeFromAllChannels(String player) {
-		boolean retVal = false;
-
-		for (ArrayList<String> channel : channels) {
-			if (channel.contains(player)) {
-				channel.remove(player);
-				retVal = true;
-			}
-		}
-		return retVal;
+	public void removeFromAllChannels(String player) {
+		this.removePlayerGlobal(player);
+		this.removePlayerStaff(player);
 	}
 
 	public void addPlayerSocialSpy(String player) {
@@ -132,26 +112,122 @@ public class CloudChatSingleton implements Serializable {
 		return retVal;
 	}
 
-	public void save(File file) {
-		try {
-			// FileWriter fw = new FileWriter()
+	public int getTest() {
+		return test;
+	}
 
+	public void changeTest(int test) {
+		this.test = test;
+	}
+
+	public void saveChannels(File file) {
+		try {
 			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(test);
+			out.writeObject(global);
 			out.close();
 			fileOut.close();
-			System.out.printf("CloudChat data is saved in ccstate.ser");
+			System.out.printf("CloudChat channels data is saved");
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
 	}
 
-	public void load(File file) {
+	public void saveGlobal(File file) {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(this.global);
+			out.close();
+			fileOut.close();
+			System.out.printf("CloudChat global data is saved");
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+	}
+
+	public void saveStaff(File file) {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(this.staff);
+			out.close();
+			fileOut.close();
+			System.out.printf("CloudChat staff data is saved");
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+	}
+
+	public void saveSocialSpy(File file) {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(this.socialSpy);
+			out.close();
+			fileOut.close();
+			System.out.printf("CloudChat social spy data saved");
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+	}
+
+	public void loadChannels(File file) {
 		try {
 			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
 			ObjectInputStream in = new ObjectInputStream(fileIn);
-			test = (Integer) in.readObject();
+			channels = (ArrayList<ArrayList<String>>) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class not found");
+			c.printStackTrace();
+			return;
+		}
+	}
+
+	public void loadGlobal(File file) {
+		try {
+			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			global = (ArrayList<String>) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class not found");
+			c.printStackTrace();
+			return;
+		}
+	}
+
+	public void loadStaff(File file) {
+		try {
+			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			this.staff = (ArrayList<String>) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class not found");
+			c.printStackTrace();
+			return;
+		}
+	}
+
+	public void loadSocialSpy(File file) {
+		try {
+			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			this.socialSpy = (ArrayList<String>) in.readObject();
 			in.close();
 			fileIn.close();
 		} catch (IOException i) {
@@ -192,13 +268,5 @@ public class CloudChatSingleton implements Serializable {
 		lines.add(temp);
 
 		return lines;
-	}
-
-	public int getTest() {
-		return test;
-	}
-
-	public void changeTest(int test) {
-		this.test = test;
 	}
 }
