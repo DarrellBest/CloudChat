@@ -27,18 +27,21 @@ public class CloudChatSingleton implements Serializable {
 	private ArrayList<String> global;
 	private ArrayList<String> socialSpy;
 	private ArrayList<String> staff;
+	private int test;
 
 	// permissions
 	public static final String GLOBAL_PERMISSION = "cloudchat.use";
 	public static final String SOCIALSPY_PERMISSION = "cloudchat.socialspy";
 	public static final String STAFF_PERMISSION = "cloudchat.staff";
 	public static final String LIST_PERMISSION = "cloudchat.list";
+	public static final String TEST_PERMISSION = "cloudchat.test";
 
 	// Private constructor prevents instantiation from other classes
 	private CloudChatSingleton() {
 		global = new ArrayList<>();
 		socialSpy = new ArrayList<>();
 		staff = new ArrayList<>();
+		test = 0;
 
 		// add all channels to the list of channels
 		channels = new ArrayList<>();
@@ -191,4 +194,11 @@ public class CloudChatSingleton implements Serializable {
 		return lines;
 	}
 
+	public int getTest(){
+		return test;
+	}
+	
+	public void changeTest(int test){
+		test = this.test;
+	}
 }

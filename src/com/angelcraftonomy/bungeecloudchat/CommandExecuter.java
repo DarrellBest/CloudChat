@@ -3,6 +3,7 @@ package com.angelcraftonomy.bungeecloudchat;
 import com.angelcraftonomy.bungeecloudchat.commands.ListCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.SocialSpyCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.StaffCommand;
+import com.angelcraftonomy.bungeecloudchat.commands.TestCommand;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -18,6 +19,7 @@ public class CommandExecuter extends Command {
 	private SocialSpyCommand socialSpyCommand;
 	private StaffCommand staffCommand;
 	private ListCommand listCommand;
+	private TestCommand testCommand;
 	private ChatColor colorOne;
 	private ChatColor colorTwo;
 
@@ -63,7 +65,27 @@ public class CommandExecuter extends Command {
 				listCommand.run();
 				listCommand.cleanup();
 			}
+			
+			if (commandName.equalsIgnoreCase(testCommand.getName())
+					|| commandName.equalsIgnoreCase(testCommand.getAlias())) {
+				testCommand.initialize(sender, args);
+				testCommand.run();
+				testCommand.cleanup();
+			}
+			
 		}
+		
+		if (args.length == 2) {
+			String commandName = args[0];	
+			
+			if (commandName.equalsIgnoreCase(testCommand.getName())
+					|| commandName.equalsIgnoreCase(testCommand.getAlias())) {
+				testCommand.initialize(sender, args);
+				testCommand.run();
+				testCommand.cleanup();
+			}
+		}
+		
 	}
 
 	// Might need to make a new command for this, but this way players can still
