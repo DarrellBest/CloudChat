@@ -39,14 +39,15 @@ public class CommandExecuter extends Command {
 	@Override
 	public void execute(CommandSender sender, String[] args) {
 		this.sender = sender;
-
+		String commandName;
+		
 		if (args.length == 0)
 			toggleGlobal(sender);
 
-		String commandName = args[0];
+
 		
 		if (args.length == 1) {
-
+			commandName = args[0];
 			if (commandName.equalsIgnoreCase(socialSpyCommand.getName())
 					|| commandName.equalsIgnoreCase(socialSpyCommand.getAlias())) {
 				socialSpyCommand.initialize(sender, args);
@@ -71,7 +72,7 @@ public class CommandExecuter extends Command {
 		}
 		
 		if (args.length == 2) {
-			
+			commandName = args[0];
 			if (commandName.equalsIgnoreCase(testCommand.getName())
 					|| commandName.equalsIgnoreCase(testCommand.getAlias())) {
 				testCommand.initialize(sender, args);
