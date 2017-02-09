@@ -194,11 +194,11 @@ public class CloudChatSingleton implements Serializable {
 		return lines;
 	}
 
-	public int getTest(){
+	public int getTest() {
 		return test;
 	}
-	
-	public void changeTest(int test){
+
+	public void changeTest(int test) {
 		test = this.test;
 	}
 }
