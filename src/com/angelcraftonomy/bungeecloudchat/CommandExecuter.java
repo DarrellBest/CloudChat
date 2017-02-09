@@ -65,19 +65,19 @@ public class CommandExecuter extends Command {
 				listCommand.run();
 				listCommand.cleanup();
 			}
-
+			
 			if (commandName.equalsIgnoreCase(testCommand.getName())
 					|| commandName.equalsIgnoreCase(testCommand.getAlias())) {
 				testCommand.initialize(sender, args);
 				testCommand.run();
 				testCommand.cleanup();
 			}
-
+			
 		}
-
+		
 		if (args.length == 2) {
-			String commandName = args[0];
-
+			String commandName = args[0];	
+			
 			if (commandName.equalsIgnoreCase(testCommand.getName())
 					|| commandName.equalsIgnoreCase(testCommand.getAlias())) {
 				testCommand.initialize(sender, args);
@@ -85,7 +85,7 @@ public class CommandExecuter extends Command {
 				testCommand.cleanup();
 			}
 		}
-
+		
 	}
 
 	// Might need to make a new command for this, but this way players can still
