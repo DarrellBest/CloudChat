@@ -199,6 +199,6 @@ public class CloudChatSingleton implements Serializable {
 	}
 
 	public void changeTest(int test) {
-		test = this.test;
+		this.test = test;
 	}
 }
