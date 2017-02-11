@@ -13,6 +13,11 @@ import net.md_5.bungee.api.plugin.PluginManager;
 
 @SuppressWarnings("unused")
 public class CloudChat extends Plugin implements Listener {
+	public static final String GLOBAL_FILE = "/globalchannel.ser";
+	public static final String STAFF_FILE = "/staffchannel.ser";
+	public static final String CHANNELS_FILE = "/channelstate.ser";
+	public static final String NICK_FILE = "/nicknames.ser";
+	public static final String SOCIALSPY_FILE = "/socialspychannel.ser";
 
 	private static final String ANSI_RESET = "\u001B[0m";
 	private static final String ANSI_BLACK = "\u001B[30m";
@@ -31,6 +36,7 @@ public class CloudChat extends Plugin implements Listener {
 	private static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
 	private static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	private static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
 	private File mainDirectory;
 	private File globalFile;
 	private File channelsFile;
@@ -62,7 +68,7 @@ public class CloudChat extends Plugin implements Listener {
 		}
 
 		// Check Channels file
-		this.channelsFile = new File(getDataFolder() + "/channelstate.ser");
+		this.channelsFile = new File(getDataFolder() + CHANNELS_FILE);
 		if (!channelsFile.exists()) {
 			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating channels state.");
 			state.saveChannels(channelsFile);
@@ -72,7 +78,7 @@ public class CloudChat extends Plugin implements Listener {
 		}
 
 		// Check Global file
-		this.globalFile = new File(getDataFolder() + "/globalchannel.ser");
+		this.globalFile = new File(getDataFolder() + GLOBAL_FILE);
 		if (!globalFile.exists()) {
 			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating global channel state.");
 			state.saveGlobal(globalFile);
@@ -82,7 +88,7 @@ public class CloudChat extends Plugin implements Listener {
 		}
 
 		// Check Social Spy file
-		this.socialSpyFile = new File(getDataFolder() + "/socialspychannel.ser");
+		this.socialSpyFile = new File(getDataFolder() + SOCIALSPY_FILE);
 		if (!socialSpyFile.exists()) {
 			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating social spy channel state.");
 			state.saveSocialSpy(socialSpyFile);
@@ -92,7 +98,7 @@ public class CloudChat extends Plugin implements Listener {
 		}
 
 		// Check staff file
-		this.staffFile = new File(getDataFolder() + "/staffchannel.ser");
+		this.staffFile = new File(getDataFolder() + STAFF_FILE);
 		if (!staffFile.exists()) {
 			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is creating staff channel state.");
 			state.saveStaff(staffFile);
@@ -103,14 +109,11 @@ public class CloudChat extends Plugin implements Listener {
 
 		// TODO Fix broken load and save
 		// Check nicknames file
-		/*
-		 * this.nicknamesFile = new File(getDataFolder() + "/nicknames.ser"); if
-		 * (!nicknamesFile.exists()) { logger.log(Level.INFO, ANSI_GREEN +
-		 * "CloudChat is creating a nicknames state.");
-		 * state.saveNicknames(nicknamesFile); } else { logger.log(Level.INFO,
-		 * ANSI_GREEN + "CloudChat is loading nicknames.");
-		 * state.loadNicknames(nicknamesFile); }
-		 */
+		this.nicknamesFile = new File(getDataFolder() + NICK_FILE);
+		if (nicknamesFile.exists()) {
+			logger.log(Level.INFO, ANSI_GREEN + "CloudChat is loading nicknames.");
+			state.loadNicknames(nicknamesFile);
+		}
 
 		// register command executer
 		logger.log(Level.INFO, "CloudChat is registering commands!");
@@ -131,11 +134,15 @@ public class CloudChat extends Plugin implements Listener {
 		state.saveChannels(channelsFile);
 		state.saveSocialSpy(socialSpyFile);
 		state.saveStaff(staffFile);
-		// state.saveNicknames(nicknamesFile);
+		state.saveNicknames(nicknamesFile);
 		logger.log(Level.INFO, ANSI_GREEN + "CloudChat is disabling!");
 	}
 
 	public static CloudChat getPlugin() {
 		return self;
+	}
+
+	public File getFolder() {
+		return getDataFolder();
 	}
 }

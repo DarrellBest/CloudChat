@@ -47,7 +47,6 @@ public class SocialSpyCommand extends CommandExtender implements CommandInterfac
 
 	@Override
 	public void sendNoPermMessage() {
-		super.sendNoPermMessage();
 		sendMessage("You do not have the permission: " + this.getPermission());
 	}
 

@@ -34,9 +34,6 @@ public class ChatListener implements Listener {
 			nickname = playerLists.getNickname(nickname);
 			this.chatEvent = chatEvent;
 
-			// send all chats to socialspy
-			this.sendToSocialSpyChannel(chatEvent.getMessage(), player.getName());
-
 			// if the player has staff chat on, take priority over global
 			if (playerLists.isInStaff(player.getName()) && player.hasPermission(CloudChatSingleton.STAFF_PERMISSION)) {
 				chatEvent.setCancelled(true);
@@ -48,6 +45,10 @@ public class ChatListener implements Listener {
 					&& player.hasPermission(CloudChatSingleton.GLOBAL_PERMISSION)) {
 				chatEvent.setCancelled(true);
 				this.sendtoGolbalChannel(chatEvent.getMessage(), nickname);
+			} else {
+				// send all non global chats to socialspy
+				if (playerLists.isInSocialSpy(player.getName()))
+					this.sendToSocialSpyChannel(chatEvent.getMessage(), player.getName());
 			}
 		}
 		// if it is a player and it is a command

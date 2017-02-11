@@ -36,6 +36,9 @@ public class CloudChatSingleton implements Serializable {
 	// test
 	private Integer test;
 
+	// Max nickname length
+	private int nickLength;
+
 	// permissions
 	public static final String GLOBAL_PERMISSION = "cloudchat.use";
 	public static final String SOCIALSPY_PERMISSION = "cloudchat.socialspy";
@@ -43,6 +46,7 @@ public class CloudChatSingleton implements Serializable {
 	public static final String LIST_PERMISSION = "cloudchat.list";
 	public static final String TEST_PERMISSION = "cloudchat.test";
 	public static final String NICK_PERMISSION = "cloudchat.nick";
+	public static final String SAVE_PERMISSION = "cloudchat.save";
 
 	// Private constructor prevents instantiation from other classes
 	private CloudChatSingleton() {
@@ -55,10 +59,12 @@ public class CloudChatSingleton implements Serializable {
 		channels = new ArrayList<>();
 		channels.add(global);
 		channels.add(staff);
+
+		this.nickLength = 20;
 	}
 
 	public void addNickname(String player, String nick) {
-		nicknames.put(player, nick);
+		nicknames.put(player, nick.replace("&", "§"));
 	}
 
 	public String getNickname(String player) {
@@ -324,5 +330,9 @@ public class CloudChatSingleton implements Serializable {
 		lines.add(temp);
 
 		return lines;
+	}
+
+	public int getMaxSize() {
+		return this.nickLength;
 	}
 }

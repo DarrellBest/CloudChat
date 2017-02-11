@@ -2,6 +2,7 @@ package com.angelcraftonomy.bungeecloudchat;
 
 import com.angelcraftonomy.bungeecloudchat.commands.ListCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.NicknameCommand;
+import com.angelcraftonomy.bungeecloudchat.commands.SaveCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.SocialSpyCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.StaffCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.TestCommand;
@@ -22,6 +23,7 @@ public class CommandExecuter extends Command {
 	private ListCommand listCommand;
 	private TestCommand testCommand;
 	private NicknameCommand nickCommand;
+	private SaveCommand saveCommand;
 	private ChatColor colorOne;
 	private ChatColor colorTwo;
 
@@ -37,6 +39,7 @@ public class CommandExecuter extends Command {
 		listCommand = new ListCommand(cloudChat, this, "list", "l", CloudChatSingleton.LIST_PERMISSION);
 		testCommand = new TestCommand(cloudChat, this, "test", "t", CloudChatSingleton.TEST_PERMISSION);
 		nickCommand = new NicknameCommand(cloudChat, this, "nick", "n", CloudChatSingleton.NICK_PERMISSION);
+		saveCommand = new SaveCommand(cloudChat, this, "save", "sa", CloudChatSingleton.SAVE_PERMISSION);
 	}
 
 	@Override
@@ -68,6 +71,13 @@ public class CommandExecuter extends Command {
 				listCommand.initialize(sender, args);
 				listCommand.run();
 				listCommand.cleanup();
+			}
+
+			if (commandName.equalsIgnoreCase(saveCommand.getName())
+					|| commandName.equalsIgnoreCase(saveCommand.getAlias())) {
+				saveCommand.initialize(sender, args);
+				saveCommand.run();
+				saveCommand.cleanup();
 			}
 
 		}

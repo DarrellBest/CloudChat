@@ -27,6 +27,10 @@ public class NicknameCommand extends CommandExtender implements CommandInterface
 	public void run() {
 		CommandSender sender = this.getSender();
 		String nick = getArgs()[1];
+		if (nick.length() >= nickNames.getMaxSize()) {
+			sendMessage("Please set a nickname with " + nickNames.getMaxSize() + " characters or less");
+			return;
+		}
 		String player = getPlayer().getName();
 		if (sender.hasPermission(this.getPermission()))
 			nickNames.addNickname(player, nick);
@@ -38,7 +42,6 @@ public class NicknameCommand extends CommandExtender implements CommandInterface
 	@Override
 	public void cleanup() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
