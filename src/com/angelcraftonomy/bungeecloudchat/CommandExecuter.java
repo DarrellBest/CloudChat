@@ -1,5 +1,6 @@
 package com.angelcraftonomy.bungeecloudchat;
 
+import com.angelcraftonomy.bungeecloudchat.commands.CommandSpyCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.ListCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.NicknameCommand;
 import com.angelcraftonomy.bungeecloudchat.commands.SaveCommand;
@@ -19,6 +20,7 @@ public class CommandExecuter extends Command {
 	private CommandSender sender;
 	private CloudChatSingleton playerLists;
 	private SocialSpyCommand socialSpyCommand;
+	private CommandSpyCommand commandSpyCommand;
 	private StaffCommand staffCommand;
 	private ListCommand listCommand;
 	private TestCommand testCommand;
@@ -35,11 +37,14 @@ public class CommandExecuter extends Command {
 		// List commands here
 		socialSpyCommand = new SocialSpyCommand(cloudChat, this, "socialspy", "ss",
 				CloudChatSingleton.SOCIALSPY_PERMISSION);
+		commandSpyCommand = new CommandSpyCommand(cloudChat, this, "commandspy", "cs",
+				CloudChatSingleton.COMMANDSPY_PERMISISON);
 		staffCommand = new StaffCommand(cloudChat, this, "staff", "s", CloudChatSingleton.STAFF_PERMISSION);
 		listCommand = new ListCommand(cloudChat, this, "list", "l", CloudChatSingleton.LIST_PERMISSION);
 		testCommand = new TestCommand(cloudChat, this, "test", "t", CloudChatSingleton.TEST_PERMISSION);
 		nickCommand = new NicknameCommand(cloudChat, this, "nick", "n", CloudChatSingleton.NICK_PERMISSION);
 		saveCommand = new SaveCommand(cloudChat, this, "save", "sa", CloudChatSingleton.SAVE_PERMISSION);
+
 	}
 
 	@Override
@@ -78,6 +83,14 @@ public class CommandExecuter extends Command {
 				saveCommand.initialize(sender, args);
 				saveCommand.run();
 				saveCommand.cleanup();
+			}
+
+			if (commandName.equalsIgnoreCase(commandSpyCommand.getName())
+					|| commandName.equals(commandSpyCommand.getAlias())) {
+
+				commandSpyCommand.initialize(sender, args);
+				commandSpyCommand.run();
+				commandSpyCommand.cleanup();
 			}
 
 		}

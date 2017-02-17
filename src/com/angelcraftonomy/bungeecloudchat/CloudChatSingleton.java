@@ -29,6 +29,7 @@ public class CloudChatSingleton implements Serializable {
 	private ArrayList<String> global;
 	private ArrayList<String> socialSpy;
 	private ArrayList<String> staff;
+	private ArrayList<String> commandSpy;
 
 	// nicknames
 	private HashMap<String, String> nicknames = new HashMap<>();
@@ -47,12 +48,14 @@ public class CloudChatSingleton implements Serializable {
 	public static final String TEST_PERMISSION = "cloudchat.test";
 	public static final String NICK_PERMISSION = "cloudchat.nick";
 	public static final String SAVE_PERMISSION = "cloudchat.save";
+	public static final String COMMANDSPY_PERMISISON = "cloudchat.commandspy";
 
 	// Private constructor prevents instantiation from other classes
 	private CloudChatSingleton() {
 		global = new ArrayList<>();
 		socialSpy = new ArrayList<>();
 		staff = new ArrayList<>();
+		commandSpy = new ArrayList<>();
 		test = new Integer(0);
 
 		// add all channels to the list of channels
@@ -99,6 +102,25 @@ public class CloudChatSingleton implements Serializable {
 		boolean retVal = false;
 
 		if (this.socialSpy.contains(player))
+			retVal = true;
+
+		return retVal;
+	}
+
+	public void addPlayerCommandSpy(String player) {
+		if (!this.commandSpy.contains(player))
+			this.commandSpy.add(player);
+	}
+
+	public void removePlayerCommandSpy(String player) {
+		if (this.commandSpy.contains(player))
+			this.commandSpy.remove(player);
+	}
+
+	public boolean isInCommandSpy(String player) {
+		boolean retVal = false;
+
+		if (this.commandSpy.contains(player))
 			retVal = true;
 
 		return retVal;
@@ -203,6 +225,19 @@ public class CloudChatSingleton implements Serializable {
 		}
 	}
 
+	public void saveCommandSpy(File file) {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(this.commandSpy);
+			out.close();
+			fileOut.close();
+			System.out.println("CloudChat command spy saved");
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+	}
+
 	public void saveNicknames(File file) {
 		try {
 			FileOutputStream fileOut = new FileOutputStream(file.getAbsolutePath());
@@ -273,6 +308,23 @@ public class CloudChatSingleton implements Serializable {
 			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			this.socialSpy = (ArrayList<String>) in.readObject();
+			in.close();
+			fileIn.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class not found");
+			c.printStackTrace();
+			return;
+		}
+	}
+
+	public void loadCommandSpy(File file) {
+		try {
+			FileInputStream fileIn = new FileInputStream(file.getAbsolutePath());
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			this.commandSpy = (ArrayList<String>) in.readObject();
 			in.close();
 			fileIn.close();
 		} catch (IOException i) {

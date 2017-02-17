@@ -54,7 +54,7 @@ public class ChatListener implements Listener {
 		// if it is a player and it is a command
 		if ((chatEvent.getSender() instanceof CommandSender) && chatEvent.isCommand()) {
 			// spies on commands
-			this.sendToSocialSpyChannel(chatEvent.getMessage(), player.getName());
+			this.sendToCommandSpyChannel(chatEvent.getMessage(), player.getName());
 		}
 	}
 
@@ -91,6 +91,19 @@ public class ChatListener implements Listener {
 						+ ChatColor.AQUA + "Staff" + ChatColor.WHITE + "] " + ChatColor.GOLD + nickname
 						+ ChatColor.WHITE + ": " + ChatColor.AQUA + message));
 			}
+	}
+
+	private void sendToCommandSpyChannel(String message, String nickname) {
+		// all messages sent to players with Command spy enabled
+		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {
+			// if the player has the permission and has command spy enabled
+			if (pp.hasPermission(CloudChatSingleton.COMMANDSPY_PERMISISON) && playerLists.isInCommandSpy(pp.getName()))
+				if (!player.getName().equals(pp.getName()))
+					pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
+							+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.WHITE + "["
+							+ ChatColor.GRAY + "SocialSpy" + ChatColor.WHITE + "] " + ChatColor.GOLD + nickname
+							+ ChatColor.WHITE + ": " + ChatColor.GRAY + message));
+		}
 	}
 
 }
