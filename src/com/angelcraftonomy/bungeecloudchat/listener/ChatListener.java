@@ -75,10 +75,11 @@ public class ChatListener implements Listener {
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {
 			// if the player has the permission and has social spy enabled
 			if (pp.hasPermission(CloudChatSingleton.SOCIALSPY_PERMISSION) && playerLists.isInSocialSpy(pp.getName()))
-				pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
-						+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.WHITE + "["
-						+ ChatColor.GRAY + "SocialSpy" + ChatColor.WHITE + "] " + ChatColor.GOLD + nickname
-						+ ChatColor.WHITE + ": " + ChatColor.GRAY + message));
+				if (!player.getName().equals(pp.getName()))
+					pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW
+							+ player.getServer().getInfo().getName() + ChatColor.WHITE + "] " + ChatColor.WHITE + "["
+							+ ChatColor.GRAY + "SocialSpy" + ChatColor.WHITE + "] " + ChatColor.GOLD + nickname
+							+ ChatColor.WHITE + ": " + ChatColor.GRAY + message));
 		}
 	}
 
