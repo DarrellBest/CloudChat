@@ -11,14 +11,14 @@ import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-public class ChatListener implements Listener {
+public class EventListener implements Listener {
 
 	private CloudChatSingleton playerLists;
 	private CloudChat cloudChat;
 	private ProxiedPlayer player;
 	private ChatEvent chatEvent;
 
-	public ChatListener(CloudChat cloudChat) {
+	public EventListener(CloudChat cloudChat) {
 		this.playerLists = CloudChatSingleton.getInstance();
 		this.cloudChat = cloudChat;
 	}
