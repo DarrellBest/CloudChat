@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @SuppressWarnings("unchecked")
-public class CloudChatSingleton implements Serializable {
+public class ChannelManager implements Serializable {
 
 	private static final long serialVersionUID = -4606175994628692132L;
 
-	private static CloudChatSingleton INSTANCE = null;
+	private static ChannelManager INSTANCE = null;
 
-	public static CloudChatSingleton getInstance() {
+	public static ChannelManager getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new CloudChatSingleton();
+			INSTANCE = new ChannelManager();
 		}
 		return INSTANCE;
 	}
@@ -51,7 +51,7 @@ public class CloudChatSingleton implements Serializable {
 	public static final String COMMANDSPY_PERMISISON = "cloudchat.commandspy";
 
 	// Private constructor prevents instantiation from other classes
-	private CloudChatSingleton() {
+	private ChannelManager() {
 		global = new ArrayList<>();
 		socialSpy = new ArrayList<>();
 		staff = new ArrayList<>();
@@ -63,7 +63,7 @@ public class CloudChatSingleton implements Serializable {
 		channels.add(global);
 		channels.add(staff);
 
-		this.nickLength = 20;
+		this.nickLength = 15;
 	}
 
 	public void addNickname(String player, String nick) {

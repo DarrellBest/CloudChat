@@ -18,7 +18,7 @@ import net.md_5.bungee.api.plugin.PluginManager;
 public class CommandExecuter extends Command {
 
 	private CommandSender sender;
-	private CloudChatSingleton playerLists;
+	private ChannelManager playerLists;
 	private SocialSpyCommand socialSpyCommand;
 	private CommandSpyCommand commandSpyCommand;
 	private StaffCommand staffCommand;
@@ -32,18 +32,18 @@ public class CommandExecuter extends Command {
 	public CommandExecuter(String name, String permission, String[] aliases, PluginManager pluginManager,
 			CloudChat cloudChat) {
 		super(name, permission, aliases);
-		playerLists = CloudChatSingleton.getInstance();
+		playerLists = ChannelManager.getInstance();
 
 		// List commands here
 		socialSpyCommand = new SocialSpyCommand(cloudChat, this, "socialspy", "ss",
-				CloudChatSingleton.SOCIALSPY_PERMISSION);
+				ChannelManager.SOCIALSPY_PERMISSION);
 		commandSpyCommand = new CommandSpyCommand(cloudChat, this, "commandspy", "cs",
-				CloudChatSingleton.COMMANDSPY_PERMISISON);
-		staffCommand = new StaffCommand(cloudChat, this, "staff", "s", CloudChatSingleton.STAFF_PERMISSION);
-		listCommand = new ListCommand(cloudChat, this, "list", "l", CloudChatSingleton.LIST_PERMISSION);
-		testCommand = new TestCommand(cloudChat, this, "test", "t", CloudChatSingleton.TEST_PERMISSION);
-		nickCommand = new NicknameCommand(cloudChat, this, "nick", "n", CloudChatSingleton.NICK_PERMISSION);
-		saveCommand = new SaveCommand(cloudChat, this, "save", "sa", CloudChatSingleton.SAVE_PERMISSION);
+				ChannelManager.COMMANDSPY_PERMISISON);
+		staffCommand = new StaffCommand(cloudChat, this, "staff", "s", ChannelManager.STAFF_PERMISSION);
+		listCommand = new ListCommand(cloudChat, this, "list", "l", ChannelManager.LIST_PERMISSION);
+		testCommand = new TestCommand(cloudChat, this, "test", "t", ChannelManager.TEST_PERMISSION);
+		nickCommand = new NicknameCommand(cloudChat, this, "nick", "n", ChannelManager.NICK_PERMISSION);
+		saveCommand = new SaveCommand(cloudChat, this, "save", "sa", ChannelManager.SAVE_PERMISSION);
 
 	}
 

@@ -48,7 +48,7 @@ public class CloudChat extends Plugin implements Listener {
 	private PluginManager pluginManager;
 	private CommandExecuter commands;
 	private EventListener listener;
-	private CloudChatSingleton state;
+	private ChannelManager state;
 	public static ServerInfo hub;
 
 	@Override
@@ -56,7 +56,7 @@ public class CloudChat extends Plugin implements Listener {
 		self = this;
 		logger = getProxy().getLogger();
 		pluginManager = getProxy().getPluginManager();
-		state = CloudChatSingleton.getInstance();
+		state = ChannelManager.getInstance();
 
 		logger.log(Level.INFO, ANSI_GREEN + "CloudChat is enabling!");
 
