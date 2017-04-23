@@ -1,24 +1,23 @@
 package com.angelcraftonomy.bungeecloudchat.listener;
 
-import com.angelcraftonomy.bungeecloudchat.CloudChat;
 import com.angelcraftonomy.bungeecloudchat.ChannelManager;
+import com.angelcraftonomy.bungeecloudchat.CloudChat;
 
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ChatEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
 
-public class EventListener implements Listener {
+public class ChatListener implements Listener {
 
 	private ChannelManager playerLists;
 	private CloudChat cloudChat;
 	private ProxiedPlayer player;
 	private ChatEvent chatEvent;
 
-	public EventListener(CloudChat cloudChat) {
+	public ChatListener(CloudChat cloudChat) {
 		this.playerLists = ChannelManager.getInstance();
 		this.cloudChat = cloudChat;
 	}
@@ -29,7 +28,7 @@ public class EventListener implements Listener {
 		player = (ProxiedPlayer) chatEvent.getSender();
 
 		// if the sender is not the console and the chat event is not a command!
-		if ((chatEvent.getSender() instanceof CommandSender) && !chatEvent.isCommand()) {
+		if (!chatEvent.isCommand()) {
 			String nickname = player.getName();
 			nickname = playerLists.getNickname(nickname);
 			this.chatEvent = chatEvent;
@@ -41,8 +40,7 @@ public class EventListener implements Listener {
 			}
 
 			// If the player has cloud chat toggled on
-			if (playerLists.isInGlobal(player.getName())
-					&& player.hasPermission(ChannelManager.GLOBAL_PERMISSION)) {
+			if (playerLists.isInGlobal(player.getName()) && player.hasPermission(ChannelManager.GLOBAL_PERMISSION)) {
 				chatEvent.setCancelled(true);
 				this.sendtoGolbalChannel(chatEvent.getMessage(), nickname);
 			} else {
@@ -52,7 +50,7 @@ public class EventListener implements Listener {
 			}
 		}
 		// if it is a player and it is a command
-		if ((chatEvent.getSender() instanceof CommandSender) && chatEvent.isCommand()) {
+		if (chatEvent.isCommand()) {
 			// spies on commands
 			this.sendToCommandSpyChannel(chatEvent.getMessage(), player.getName());
 		}

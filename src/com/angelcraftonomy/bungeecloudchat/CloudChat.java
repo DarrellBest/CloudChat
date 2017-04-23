@@ -4,7 +4,8 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.angelcraftonomy.bungeecloudchat.listener.EventListener;
+import com.angelcraftonomy.bungeecloudchat.listener.ChatListener;
+import com.angelcraftonomy.bungeecloudchat.listener.JoinListener;
 
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Listener;
@@ -47,7 +48,7 @@ public class CloudChat extends Plugin implements Listener {
 	private Logger logger;
 	private PluginManager pluginManager;
 	private CommandExecuter commands;
-	private EventListener listener;
+	private ChatListener listener;
 	private ChannelManager state;
 	public static ServerInfo hub;
 
@@ -121,8 +122,8 @@ public class CloudChat extends Plugin implements Listener {
 
 		// register listeners
 		logger.log(Level.INFO, "CloudChat is registering listeners!");
-		listener = new EventListener(this);
-		pluginManager.registerListener(this, listener);
+		pluginManager.registerListener(this, new ChatListener(this));
+		pluginManager.registerListener(this, new JoinListener(this));
 
 	}
 

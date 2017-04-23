@@ -1,7 +1,7 @@
 package com.angelcraftonomy.bungeecloudchat.commands;
 
-import com.angelcraftonomy.bungeecloudchat.CloudChat;
 import com.angelcraftonomy.bungeecloudchat.ChannelManager;
+import com.angelcraftonomy.bungeecloudchat.CloudChat;
 import com.angelcraftonomy.bungeecloudchat.extenders.CommandExtender;
 import com.angelcraftonomy.bungeecloudchat.interfaces.CommandInterface;
 
@@ -27,10 +27,13 @@ public class NicknameCommand extends CommandExtender implements CommandInterface
 	public void run() {
 		CommandSender sender = this.getSender();
 		String nick = getArgs()[1];
-		if (nick.length() >= nickNames.getMaxSize()) {
+		if (nick.replaceAll("&\\S", "").length() >= nickNames.getMaxSize()) {
 			sendMessage("Please set a nickname with " + nickNames.getMaxSize() + " characters or less");
+			if (sender.getName().contains("UsuriousAngel"))
+				sendMessage("Debug: " + nick.replaceAll("&\\S", ""));
 			return;
 		}
+
 		String player = getPlayer().getName();
 		if (sender.hasPermission(this.getPermission()))
 			nickNames.addNickname(player, nick);

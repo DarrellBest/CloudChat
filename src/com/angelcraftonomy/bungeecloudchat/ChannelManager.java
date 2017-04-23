@@ -90,7 +90,7 @@ public class ChannelManager implements Serializable {
 
 	public void addPlayerSocialSpy(String player) {
 		if (!this.socialSpy.contains(player))
-			this.socialSpy.add(player);
+			this.socialSpy.add(0, player);
 	}
 
 	public void removePlayerSocialSpy(String player) {
@@ -109,7 +109,7 @@ public class ChannelManager implements Serializable {
 
 	public void addPlayerCommandSpy(String player) {
 		if (!this.commandSpy.contains(player))
-			this.commandSpy.add(player);
+			this.commandSpy.add(0, player);
 	}
 
 	public void removePlayerCommandSpy(String player) {
@@ -128,7 +128,7 @@ public class ChannelManager implements Serializable {
 
 	public void addPlayerGlobal(String player) {
 		if (!this.global.contains(player))
-			this.global.add(player);
+			this.global.add(0, player);
 	}
 
 	public void removePlayerGlobal(String player) {
@@ -147,7 +147,7 @@ public class ChannelManager implements Serializable {
 
 	public void addPlayerStaff(String player) {
 		if (!this.staff.contains(player))
-			this.staff.add(player);
+			this.staff.add(0, player);
 	}
 
 	public void removePlayerStaff(String player) {
@@ -361,25 +361,36 @@ public class ChannelManager implements Serializable {
 		// Global list
 		lines.add("Channel: Global");
 		for (String player : this.global) {
-			temp = temp.concat(" " + player);
+			temp = temp.concat(" " + player + ",");
 		}
-		lines.add(temp);
-		temp = "";
+		lines.add(temp.substring(0, temp.length() - 2));
+		lines.add("\n");
 
+		temp = "";
 		// Staff list
 		lines.add("Channel: Staff");
 		for (String player : this.staff) {
-			temp = temp.concat(" " + player);
+			temp = (" " + player + ",");
 		}
-		lines.add(temp);
-		temp = "";
+		lines.add(temp.substring(0, temp.length() - 2));
+		lines.add("\n");
 
+		temp = "";
 		// Social Spy list
 		lines.add("Channel: SocialSpy");
 		for (String player : socialSpy) {
-			temp = temp.concat(" " + player);
+			temp = (" " + player + ",");
 		}
-		lines.add(temp);
+		lines.add(temp.substring(0, temp.length() - 2));
+		lines.add("\n");
+
+		temp = "";
+		// Command Spy list
+		lines.add("Channel: CommandSpy");
+		for (String player : commandSpy) {
+			temp = (" " + player + ",");
+		}
+		lines.add(temp.substring(0, temp.length() - 2));
 
 		return lines;
 	}
