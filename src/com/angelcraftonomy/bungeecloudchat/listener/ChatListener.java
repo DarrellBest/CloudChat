@@ -1,6 +1,6 @@
 package com.angelcraftonomy.bungeecloudchat.listener;
 
-import com.angelcraftonomy.bungeecloudchat.ChannelManager;
+import com.angelcraftonomy.bungeecloudchat.Manager;
 import com.angelcraftonomy.bungeecloudchat.CloudChat;
 
 import net.md_5.bungee.api.ChatColor;
@@ -12,13 +12,13 @@ import net.md_5.bungee.event.EventHandler;
 
 public class ChatListener implements Listener {
 
-	private ChannelManager playerLists;
+	private Manager playerLists;
 	private CloudChat cloudChat;
 	private ProxiedPlayer player;
 	private ChatEvent chatEvent;
 
 	public ChatListener(CloudChat cloudChat) {
-		this.playerLists = ChannelManager.getInstance();
+		this.playerLists = Manager.getInstance();
 		this.cloudChat = cloudChat;
 	}
 
@@ -34,13 +34,13 @@ public class ChatListener implements Listener {
 			this.chatEvent = chatEvent;
 
 			// if the player has staff chat on, take priority over global
-			if (playerLists.isInStaff(player.getName()) && player.hasPermission(ChannelManager.STAFF_PERMISSION)) {
+			if (playerLists.isInStaff(player.getName()) && player.hasPermission(Manager.STAFF_PERMISSION)) {
 				chatEvent.setCancelled(true);
 				this.sendToStaffChannel(chatEvent.getMessage(), nickname);
 			}
 
 			// If the player has cloud chat toggled on
-			if (playerLists.isInGlobal(player.getName()) && player.hasPermission(ChannelManager.GLOBAL_PERMISSION)) {
+			if (playerLists.isInGlobal(player.getName()) && player.hasPermission(Manager.GLOBAL_PERMISSION)) {
 				chatEvent.setCancelled(true);
 				this.sendtoGolbalChannel(chatEvent.getMessage(), nickname);
 			} else {
@@ -61,7 +61,7 @@ public class ChatListener implements Listener {
 		name = playerLists.getNickname(name);
 		// send it all players on the proxy instead (all servers)
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers())
-			if (((pp instanceof ProxiedPlayer)) && (pp.hasPermission(ChannelManager.GLOBAL_PERMISSION)))
+			if (((pp instanceof ProxiedPlayer)) && (pp.hasPermission(Manager.GLOBAL_PERMISSION)))
 				pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.YELLOW + "Global" + ChatColor.WHITE
 						+ "] " + ChatColor.GOLD + nickname + ChatColor.WHITE + ": " + message));
 	}
@@ -70,7 +70,7 @@ public class ChatListener implements Listener {
 		// all messages sent to players with social spy enabled
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {
 			// if the player has the permission and has social spy enabled
-			if (pp.hasPermission(ChannelManager.SOCIALSPY_PERMISSION) && playerLists.isInSocialSpy(pp.getName()))
+			if (pp.hasPermission(Manager.SOCIALSPY_PERMISSION) && playerLists.isInSocialSpy(pp.getName()))
 				if (!player.getName().equals(pp.getName()))
 					pp.sendMessage(new TextComponent(
 							ChatColor.WHITE + "[" + ChatColor.GRAY + "SocialSpy" + ChatColor.WHITE + "] "
@@ -80,7 +80,7 @@ public class ChatListener implements Listener {
 
 	private void sendToStaffChannel(String message, String nickname) {
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers())
-			if (pp instanceof ProxiedPlayer && pp.hasPermission(ChannelManager.STAFF_PERMISSION)) {
+			if (pp instanceof ProxiedPlayer && pp.hasPermission(Manager.STAFF_PERMISSION)) {
 				pp.sendMessage(new TextComponent(ChatColor.WHITE + "[" + ChatColor.AQUA + "Staff" + ChatColor.WHITE
 						+ "] " + ChatColor.GOLD + nickname + ChatColor.WHITE + ": " + ChatColor.AQUA + message));
 			}
@@ -90,7 +90,7 @@ public class ChatListener implements Listener {
 		// all messages sent to players with Command spy enabled
 		for (ProxiedPlayer pp : this.cloudChat.getProxy().getPlayers()) {
 			// if the player has the permission and has command spy enabled
-			if (pp.hasPermission(ChannelManager.COMMANDSPY_PERMISISON) && playerLists.isInCommandSpy(pp.getName()))
+			if (pp.hasPermission(Manager.COMMANDSPY_PERMISISON) && playerLists.isInCommandSpy(pp.getName()))
 				if (!player.getName().equals(pp.getName()))
 					pp.sendMessage(new TextComponent(
 							ChatColor.WHITE + "[" + ChatColor.GRAY + "CommandSpy" + ChatColor.WHITE + "] "

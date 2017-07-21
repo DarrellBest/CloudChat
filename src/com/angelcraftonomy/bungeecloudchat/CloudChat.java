@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.angelcraftonomy.bungeecloudchat.listener.ChatListener;
 import com.angelcraftonomy.bungeecloudchat.listener.JoinListener;
+import com.angelcraftonomy.bungeecloudchat.listener.QuitListener;
 
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.plugin.Listener;
@@ -49,7 +50,7 @@ public class CloudChat extends Plugin implements Listener {
 	private PluginManager pluginManager;
 	private CommandExecuter commands;
 	private ChatListener listener;
-	private ChannelManager state;
+	private Manager state;
 	public static ServerInfo hub;
 
 	@Override
@@ -57,7 +58,7 @@ public class CloudChat extends Plugin implements Listener {
 		self = this;
 		logger = getProxy().getLogger();
 		pluginManager = getProxy().getPluginManager();
-		state = ChannelManager.getInstance();
+		state = Manager.getInstance();
 
 		logger.log(Level.INFO, ANSI_GREEN + "CloudChat is enabling!");
 
@@ -124,6 +125,7 @@ public class CloudChat extends Plugin implements Listener {
 		logger.log(Level.INFO, "CloudChat is registering listeners!");
 		pluginManager.registerListener(this, new ChatListener(this));
 		pluginManager.registerListener(this, new JoinListener(this));
+		pluginManager.registerListener(this, new QuitListener(this));
 
 	}
 

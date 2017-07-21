@@ -1,7 +1,7 @@
 package com.angelcraftonomy.bungeecloudchat.commands;
 
 import com.angelcraftonomy.bungeecloudchat.CloudChat;
-import com.angelcraftonomy.bungeecloudchat.ChannelManager;
+import com.angelcraftonomy.bungeecloudchat.Manager;
 import com.angelcraftonomy.bungeecloudchat.extenders.CommandExtender;
 import com.angelcraftonomy.bungeecloudchat.interfaces.CommandInterface;
 
@@ -10,11 +10,11 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class StaffCommand extends CommandExtender implements CommandInterface {
 
-	private ChannelManager channels;
+	private Manager channels;
 
 	public StaffCommand(CloudChat cloudChat, Command command, String name, String alias, String permission) {
 		super(cloudChat, command, name, alias, permission);
-		channels = ChannelManager.getInstance();
+		channels = Manager.getInstance();
 	}
 
 	@Override

@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @SuppressWarnings("unchecked")
-public class ChannelManager implements Serializable {
+public class Manager implements Serializable {
 
 	private static final long serialVersionUID = -4606175994628692132L;
 
-	private static ChannelManager INSTANCE = null;
+	private static Manager INSTANCE = null;
 
-	public static ChannelManager getInstance() {
+	public static Manager getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new ChannelManager();
+			INSTANCE = new Manager();
 		}
 		return INSTANCE;
 	}
@@ -31,8 +31,12 @@ public class ChannelManager implements Serializable {
 	private ArrayList<String> staff;
 	private ArrayList<String> commandSpy;
 
+	// playtime
+	private HashMap<String, Long> playtime;
+	private HashMap<String, Long> jointime;
+
 	// nicknames
-	private HashMap<String, String> nicknames = new HashMap<>();
+	private HashMap<String, String> nicknames;
 
 	// test
 	private Integer test;
@@ -51,7 +55,7 @@ public class ChannelManager implements Serializable {
 	public static final String COMMANDSPY_PERMISISON = "cloudchat.commandspy";
 
 	// Private constructor prevents instantiation from other classes
-	private ChannelManager() {
+	private Manager() {
 		global = new ArrayList<>();
 		socialSpy = new ArrayList<>();
 		staff = new ArrayList<>();
@@ -63,7 +67,40 @@ public class ChannelManager implements Serializable {
 		channels.add(global);
 		channels.add(staff);
 
+		playtime = new HashMap<>();
+		jointime = new HashMap<>();
+		nicknames = new HashMap<>();
+
 		this.nickLength = 15;
+	}
+
+	public void updateTitles() {
+		for (String key : playtime.keySet()) {
+			ArrayList<ArrayList<String>> sorted = new ArrayList<>();
+			for (int i = 0; i < playtime.keySet().size(); i++) {
+				ArrayList<String> temp = new ArrayList();
+				// add playtime as string
+				temp.add(playtime.get(key).toString());
+				// add player
+				temp.add(key);
+				sorted.add(i, temp);
+			}
+
+		}
+	}
+
+	public void setPlaytime(String player, Long time) {
+		if (!playtime.containsKey(player))
+			playtime.put(player, time);
+	}
+
+	public void addPlaytime(String player, Long time) {
+		if (playtime.containsKey(player))
+			playtime.put(player, (time - jointime.get(player)) + playtime.get(player));
+	}
+
+	public void addJointime(String player, Long time) {
+		jointime.put(player, time);
 	}
 
 	public void addNickname(String player, String nick) {
@@ -363,8 +400,8 @@ public class ChannelManager implements Serializable {
 		for (String player : this.global) {
 			temp = temp.concat(" " + player + ",");
 		}
-		lines.add(temp.substring(0, temp.length() - 2));
-		lines.add("\n");
+		if (temp.length() >= 1)
+			lines.add(temp.substring(0, temp.length() - 1));
 
 		temp = "";
 		// Staff list
@@ -372,25 +409,26 @@ public class ChannelManager implements Serializable {
 		for (String player : this.staff) {
 			temp = (" " + player + ",");
 		}
-		lines.add(temp.substring(0, temp.length() - 2));
-		lines.add("\n");
+		if (temp.length() >= 1)
+			lines.add(temp.substring(0, temp.length() - 1));
 
 		temp = "";
 		// Social Spy list
 		lines.add("Channel: SocialSpy");
-		for (String player : socialSpy) {
+		for (String player : this.socialSpy) {
 			temp = (" " + player + ",");
 		}
-		lines.add(temp.substring(0, temp.length() - 2));
-		lines.add("\n");
+		if (temp.length() >= 1)
+			lines.add(temp.substring(0, temp.length() - 1));
 
 		temp = "";
 		// Command Spy list
 		lines.add("Channel: CommandSpy");
-		for (String player : commandSpy) {
+		for (String player : this.commandSpy) {
 			temp = (" " + player + ",");
 		}
-		lines.add(temp.substring(0, temp.length() - 2));
+		if (temp.length() >= 1)
+			lines.add(temp.substring(0, temp.length() - 1));
 
 		return lines;
 	}

@@ -18,7 +18,7 @@ import net.md_5.bungee.api.plugin.PluginManager;
 public class CommandExecuter extends Command {
 
 	private CommandSender sender;
-	private ChannelManager playerLists;
+	private Manager playerLists;
 	private SocialSpyCommand socialSpyCommand;
 	private CommandSpyCommand commandSpyCommand;
 	private StaffCommand staffCommand;
@@ -32,18 +32,18 @@ public class CommandExecuter extends Command {
 	public CommandExecuter(String name, String permission, String[] aliases, PluginManager pluginManager,
 			CloudChat cloudChat) {
 		super(name, permission, aliases);
-		playerLists = ChannelManager.getInstance();
+		playerLists = Manager.getInstance();
 
 		// List commands here
 		socialSpyCommand = new SocialSpyCommand(cloudChat, this, "socialspy", "ss",
-				ChannelManager.SOCIALSPY_PERMISSION);
+				Manager.SOCIALSPY_PERMISSION);
 		commandSpyCommand = new CommandSpyCommand(cloudChat, this, "commandspy", "cs",
-				ChannelManager.COMMANDSPY_PERMISISON);
-		staffCommand = new StaffCommand(cloudChat, this, "staff", "s", ChannelManager.STAFF_PERMISSION);
-		listCommand = new ListCommand(cloudChat, this, "list", "l", ChannelManager.LIST_PERMISSION);
-		testCommand = new TestCommand(cloudChat, this, "test", "t", ChannelManager.TEST_PERMISSION);
-		nickCommand = new NicknameCommand(cloudChat, this, "nick", "n", ChannelManager.NICK_PERMISSION);
-		saveCommand = new SaveCommand(cloudChat, this, "save", "sa", ChannelManager.SAVE_PERMISSION);
+				Manager.COMMANDSPY_PERMISISON);
+		staffCommand = new StaffCommand(cloudChat, this, "staff", "s", Manager.STAFF_PERMISSION);
+		listCommand = new ListCommand(cloudChat, this, "list", "l", Manager.LIST_PERMISSION);
+		testCommand = new TestCommand(cloudChat, this, "test", "t", Manager.TEST_PERMISSION);
+		nickCommand = new NicknameCommand(cloudChat, this, "nick", "n", Manager.NICK_PERMISSION);
+		saveCommand = new SaveCommand(cloudChat, this, "save", "sa", Manager.SAVE_PERMISSION);
 
 	}
 
